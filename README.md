@@ -23,7 +23,7 @@ This project is a prototype of an Airline Reservation System (ARS) designed to f
    npm install
 3. **Configure Environment Variables:**
    ```env
-   PORT=3000
+   PORT=1000
 ## Usage
 - Booking: Select a flight and proceed with the booking process.
 - View: View Flight Schedules
