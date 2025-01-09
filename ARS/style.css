@@ -208,19 +208,8 @@ a:hover, a:active {
     color: #316FF6;
 }
 
-.instagram:hover{
-    background: linear-gradient(
-            to right,
-            #feda75,  /* Light Yellow */
-            #fa7e1e,  /* Orange */
-            #d62976,  /* Pink */
-            #962fbf,  /* Purple */
-            #4f5bd5   /* Blue */
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; /* Text fill becomes transparent */
-    background-clip: text; /* Fallback for other browsers */
-    color: transparent; /* Ensure text is transparent by default */
+.github:hover   {
+    color: #b46cc9;
 }
 
 .twitter:hover{
