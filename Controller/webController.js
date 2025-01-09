@@ -1,8 +1,9 @@
 const path = require("path");
 
+//tbc
 const ARS_PATH = path.join(__dirname, '../ARS');
 
-const getWebsiteData = function (req, res, next) {
+const getWebsiteData = function (req, res) {
     try {
         res.sendFile(path.join(ARS_PATH, 'myWebsite.html'));
     } catch (e) {
@@ -10,7 +11,7 @@ const getWebsiteData = function (req, res, next) {
     }
 };
 
-const getAdmin = function (req, res, next) {
+const getAdmin = function (req, res) {
     try {
         res.sendFile(path.join(ARS_PATH, 'admin.html'));
     } catch (e) {
@@ -18,7 +19,7 @@ const getAdmin = function (req, res, next) {
     }
 };
 
-const getPayment = function(req, res, next) {
+const getPayment = function(req, res) {
     try {
         res.sendFile(path.join(ARS_PATH, 'payment.html'));
     } catch (e) {

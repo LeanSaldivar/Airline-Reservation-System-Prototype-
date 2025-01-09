@@ -248,7 +248,7 @@ a:hover, a:active {
     gap: 15px;
 }
 
-.cancel-flights-form label
+.cancel-flights-form label,
 .faq-form label,
 .passenger-form label{
     font-size: 16px;
