@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <title>Airline Reservation Ticket System (A.R.T.S)</title>
+    <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+<section>
+    <div class="topnav">
+        <div class="left">
+            <p>Project <span class="logo">(A.R.T.S)</span></p>
+        </div>
+        <div class="right">
+            <a href="index.html" target="_blank" class="btn login">Login</a>
+            <a href="index.html" target="_blank" class="btn signup">Sign-up</a>
+        </div>
+    </div>
+</section>
+
+<!-- Customer UI Section -->
+<section class="customer-ui">
+    <div class="nav-bar">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#book-flight" class="nav-link">Book Flight</a>
+        <a href="#flight-schedule" class="nav-link">Flight Schedule</a>
+        <a href="#cancel-flights" class="nav-link cancel-flights">Cancel Flights</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+    </div>
+
+
+    <div class="content">
+        <div id="home" class="tab-content">
+            <div class="home-content">
+                <div class="home-left">
+                    <img src="https://t3.ftcdn.net/jpg/00/01/47/28/360_F_1472821_kMjcU0El8NkcU0k7zNtlVTU0Fl8W2l.jpg" alt="Welcome to ARTS" class="intro-image">
+                </div>
+                <div class="home-right">
+                    <h1>Welcome to A.R.T.S!</h1>
+                    <p>
+                        Welcome to the Airline Reservation Ticket System (A.R.T.S)! Our mission is to provide a seamless
+                        and efficient platform for booking flights, managing reservations, and staying updated with the latest
+                        flight schedules. We are dedicated to making air travel more accessible and stress-free for our customers.
+                    </p>
+                    <p>
+                        If you have any questions or need assistance, feel free to reach out to us through:
+                    </p>
+                    <ul>
+                        <li><strong>Email:</strong> support@arts.com</li>
+                        <li><strong>Phone:</strong> +1 (800) 123-4567</li>
+                        <li><strong>Address:</strong> 123 Airline Avenue, Sky City, Flyland</li>
+                    </ul>
+                    <p>
+                        Connect with us on our social media platforms:
+                        <a href="#" class = "facebook" target="_blank">Facebook</a> |
+                        <a href="#" class = "twitter" target="_blank">Twitter</a> |
+                        <a href="#" class = "instagram" target="_blank">Instagram</a>
+                    </p>
+                    <a href="#" class="read-more-btn">Read More</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="cancel-flights" class="tab-content">
+            <h1>Cancel Flights</h1>
+            <p>Please enter your flight details to cancel your booking:</p>
+
+            <!– FORM –>
+            <form class="cancel-flights-form" method="post" action="#">
+                <label for="flight-id">Flight ID:</label>
+                <input type="text" id="flight-id" name="flight-id" placeholder="Enter your flight ID" required>
+
+                <button type="submit" class="cancel-btn">Cancel Booking</button>
+            </form>
+
+        </div>
+
+
+        <div id="book-flight" class="tab-content">
+            <div class="form-container">
+                <h1>Book Your Flight</h1>
+                <p>Fill in the details below to book your flight.</p>
+
+                <!-- Flight Booking Form -->
+                <form id="add-flight-form" class="flight-booking-form">
+                    <!-- Flying From -->
+                    <label for="flying-from">Flying From:</label>
+                    <select id="flying-from" name="flying-from" required>
+                        <option value="" disabled selected>Select your departure location</option>
+                        <option value="new-york">New York</option>
+                        <option value="london">London</option>
+                        <option value="tokyo">Tokyo</option>
+                    </select>
+
+                    <!-- Moving To -->
+                    <label for="moving-to">Moving To:</label>
+                    <select id="moving-to" name="moving-to" required>
+                        <option value="" disabled selected>Select your destination</option>
+                        <option value="paris">Paris</option>
+                        <option value="mogadishu">Mogadishu</option>
+                        <option value="sydney">Sydney</option>
+                        <option value="dubai">Dubai</option>
+                    </select>
+
+                    <!-- Departure Date -->
+                    <label for="departure-date">Departure Date:</label>
+                    <input type="date" id="departure-date" name="departure-date" required>
+
+                    <!-- Return Date -->
+                    <label for="return-date">Return Date:</label>
+                    <input type="date" id="return-date" name="return-date">
+
+                    <!-- Travel Class -->
+                    <label for="travel-class">Travel Class:</label>
+                    <select id="travel-class" name="travel-class" required>
+                        <option value="" disabled selected>Select travel class</option>
+                        <option value="economy">Economy</option>
+                        <option value="business">Business</option>
+                        <option value="first-class">First Class</option>
+                    </select>
+
+                    <!-- Submit Button for POST Request -->
+                    <button id="refresh-button" type="submit" class="submit-btn">Book Flight</button>
+                    <script src="./front/Front.js"></script>
+                </form>
+
+                <!-- Separate Button for Redirection -->
+                <div style="margin-top: 20px;">
+                    <a href="http://localhost:1000/web/payment" class="redirect-btn">Go to Payment Page</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="flight-schedule" class="tab-content">
+            <h1>Your Flight Schedule</h1>
+            <p>Below is your current flight schedule:</p>
+            <button type="button" class="show-flight" onclick="loadData()">Refresh Flight Schedule</button>
+            <table class="flight-schedule-table">
+                <thead>
+                <tr>
+                    <th>Flight ID</th>
+                    <th>Flying From</th>
+                    <th>Moving To</th>
+                    <th>Departure</th>
+                    <th>Arrival</th>
+                    <th>Travel Class</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>ABC123</td>
+                    <td>japan</td>
+                    <td>New York</td>
+                    <td>08/01/2025</td>
+                    <td>09/01/2025</td>
+                    <th>Business</th>
+                    <td>Delayed</td>
+                </tr>
+                </tbody>
+            </table>
+            <script type="text/javascript">
+                const flightSchedule = document.querySelector('.flight-schedule-table > tbody');
+
+                // Async function to load data
+                async function loadData() {
+                    try {
+                        const response = await fetch('http://localhost:1000/web/api/posts');
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        const data = await response.json();
+                        populateFlightSchedule(data);
+                    } catch (error) {
+                        console.error('Failed to fetch flight schedule:', error.message);
+                    }
+                }
+
+                // Function to populate flight schedule table
+                function populateFlightSchedule(data) {
+                    // Clear existing table data
+                    flightSchedule.innerHTML = '';
+
+                    // Populate table with rows
+                    data.forEach((row) => {
+                        const tr = document.createElement('tr');
+
+                        // Helper to create and append cells
+                        const createCell = (content) => {
+                            const td = document.createElement('td');
+                            td.textContent = content;
+                            tr.appendChild(td);
+                        };
+
+                        createCell(row.flightCode);      // Flight ID
+                        createCell(row.flyingFrom);     // Flying From
+                        createCell(row.movingTo);       // Moving To
+                        createCell(row.departureDate);  // Departure Date
+                        createCell(row.returnDate);     // Return Date
+                        createCell(row.travelClass);    // Travel Class
+                        createCell(row.flightStatus);   // Flight Status
+
+                        flightSchedule.appendChild(tr);
+                    });
+                }
+
+                // Load data when the document is fully loaded
+                document.addEventListener('DOMContentLoaded', () => {
+                    loadData();
+                });
+            </script>
+
+
+        </div>
+
+        <div id="faq" class="tab-content">
+            <h1>Frequently Asked Questions (FAQ)</h1>
+            <p>
+                Have questions? Find answers to commonly asked questions about booking, cancellations,
+                and more.
+            </p>
+
+            <h2>What is the Airline Reservation System?</h2>
+            <p>The Airline Reservation System is a platform that allows customers to book,
+                cancel, and manage flight tickets online, while administrators can manage flight schedules,
+                customer information, and ticket statuses.</p>
+
+            <h2>Who can use the Airline Reservation System?</h2>
+            <p>The system is designed for two types of users:
+
+                Customers: To search for flights, make reservations, and manage their bookings.
+                Administrators: To manage flight schedules, customer data, and ticket reservations.</p>
+
+            <form class = "faq-form"  method="post" action="#">
+                <label for = "faq-id" style="text-align: center; padding-top: 50px;">Got a Question?</label>
+                <input type="text" id = "faq-id" name="faq-id" placeholder="Enter your Suggestions" required>
+                <button type="submit" class="cancel-btn">Submit response</button>
+
+
+            </form>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    const navLinks = document.querySelectorAll('.nav-link');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // Remove active class from all links
+            navLinks.forEach(nav => nav.classList.remove('active'));
+
+            // Add active class to the clicked link
+            e.target.classList.add('active');
+
+            // Hide all tab contents
+            tabContents.forEach(tab => tab.style.display = 'none');
+
+            // Show the corresponding tab content
+            const targetId = e.target.getAttribute('href').substring(1);
+            const targetTab = document.getElementById(targetId);
+
+            if (targetTab) {
+                targetTab.style.display = 'block';
+            } else {
+                console.error(`Tab with ID "${targetId}" not found.`);
+            }
+        });
+    });
+
+    // Show the first tab on page load
+    document.querySelector('.tab-content').style.display = 'block';
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <title>Airline Payment System</title>
+</head>
+
+<style>
+
+    body{
+        /* General styles */
+        body {
+            background-color: #2B2D2F;
+            font-family: 'Source Sans Pro', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    /* Top navigation bar */
+    .topnav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #4C4F52;
+        color: #FFFFFF;
+        padding: 10px 30px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 999;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .topnav .left p {
+        margin: 0;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .topnav .logo {
+        color: #04AA6D;
+    }
+
+
+    /* Customer UI Section */
+    .customer-payment-form {
+        background-color: #FFFFFF; /* White background for the customer UI */
+        min-height: calc(100vh - 70px); /* Full height minus the height of the topnav */
+        padding: 20px 30px;
+        margin-top: 70px; /* Matches the height of the fixed topnav */
+        color: #333333;
+        font-family: 'Source Sans Pro', sans-serif;
+        box-sizing: border-box; /* Ensure padding is included in height calculations */
+    }
+
+    .payment-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        max-width: 500px;
+        padding: 20px;
+        background-color: #F9F9F9;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+
+
+    .payment-form label {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333333;
+    }
+
+    .payment-form select {
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #CCCCCC;
+        border-radius: 5px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .payment-form select:focus {
+        outline: none;
+        border-color: #04AA6D;
+        box-shadow: 0 0 5px rgba(0, 170, 109, 0.5);
+    }
+
+    .submit-btn {
+        padding: 10px 20px;
+        background-color: #04AA6D;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .submit-btn:hover {
+        background-color: #028a50;
+    }
+
+
+</style>
+
+<body>
+
+<section>
+    <div class="topnav">
+        <div class="left">
+            <p>Project <span class="logo">(A.R.T.S)</span></p>
+        </div>
+    </div>
+</section>
+
+<div class="customer-payment-form">
+        <div class="form-container">
+            <form class = "payment-form">
+            <h1>Payment Details:</h1>
+            <label for="fname">First name:</label>
+            <input type="text" id="fname" name="fname">
+
+            <label for="lname">Last name:</label>
+            <input type="text" id="lname" name="lname">
+
+            <label for="amount">Amount</label>
+            <input type = "number" name = "amount" id = "amount">
+
+            <label for="email">Email:</label>
+            <input type = "email" name = "email" id = "email">
+
+            <label for="mobile">Mobile:</label>
+            <input type = "number" name = "mobile" id = "mobile">
+
+            <label for="Card Type">Card Type:</label>
+            <select id="Card Type" name="Card Type" required>
+                <option value="" disabled selected>Select Card Type</option>
+                <option value="visa">Visa</option>
+                <option value="mastercard">Mastercard</option>
+                <option value="amex">AMEX</option>
+            </select>
+
+                <button type="submit" class="submit-btn">Confirm Payment</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,387 @@
+/* General styles */
+body {
+    background-color: #2B2D2F;
+    font-family: 'Source Sans Pro', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Links */
+a {
+    text-decoration: none;
+}
+
+a:link, a:visited {
+    color: inherit;
+}
+
+a:hover, a:active {
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+/* Top navigation bar */
+.topnav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #4C4F52;
+    color: #FFFFFF;
+    padding: 10px 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.topnav .left p {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.topnav .logo {
+    color: #04AA6D;
+}
+
+/* Right buttons */
+.topnav .right {
+    display: flex;
+    gap: 15px;            /* Space between the buttons */
+    justify-content: flex-end; /* Align items to the right */
+    align-items: center;  /* Vertically center the buttons */
+    margin-right: 40px;   /* Add margin to push buttons to the left */
+}
+
+
+.topnav .btn {
+    display: inline-block;
+    padding: 8px 15px;    /* Adjust padding for balanced button size */
+    border-radius: 20px;
+    font-size: 16px;
+    text-align: center;
+    font-weight: 600;
+    white-space: nowrap;  /* Prevent text from wrapping */
+    transition: all 0.3s ease;
+}
+
+/* Login button */
+.topnav .btn.login {
+    background-color: #04AA6D;
+    color: #FFFFFF;
+    border: 2px solid #04AA6D;
+    flex: none;           /* Prevents buttons from stretching */
+}
+
+.topnav .btn.login:hover {
+    background-color: #028A5F;
+    border-color: #028A5F;
+}
+
+/* Sign-up button */
+.topnav .btn.signup {
+    background-color: transparent;
+    color: #FFFFFF;
+    border: 2px solid #FFFFFF;
+    flex: none;           /* Prevents buttons from stretching */
+}
+
+.topnav .btn.signup:hover {
+    background-color: #FFFFFF;
+    color: #4C4F52;
+}
+
+/* Customer UI Section */
+.customer-ui {
+    background-color: #FFFFFF; /* White background for the customer UI */
+    min-height: calc(100vh - 70px); /* Full height minus the height of the topnav */
+    padding: 20px 30px;
+    margin-top: 70px; /* Matches the height of the fixed topnav */
+    color: #333333;
+    font-family: 'Source Sans Pro', sans-serif;
+    box-sizing: border-box; /* Ensure padding is included in height calculations */
+}
+
+.nav-bar {
+    display: flex;
+    justify-content: space-around; /* Evenly space out buttons */
+    background-color: #F0F0F0;
+    border: 1px solid #CCCCCC;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.nav-bar .nav-link {
+    text-decoration: none;
+    color: #333333;
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-bar .nav-link:hover {
+    background-color: #04AA6D;
+    color: white;
+    border-radius: 5px;
+}
+
+.nav-bar .nav-link.active {
+    background-color: #04AA6D;
+    color: white;
+    border-radius: 5px;
+}
+
+
+/* Tab content */
+.tab-content {
+    display: none; /* Initially hide all sections */
+}
+
+.tab-content:first-child {
+    display: block; /* Show Home Page by default */
+}
+
+.tab-content h1{
+    font-size: 28px;
+    color: #04AA6D;
+}
+
+.tab-content h2 {
+    font-size: 24px;
+    color: #04AA6D;
+}
+
+.tab-content p {
+    font-size: 18px;
+    color: #666666;
+}
+
+/* Home Page Content Styling */
+.home-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+    background-color: #FFFFFF;
+    height: calc(100vh - 150px);
+    overflow-y: auto;
+}
+
+.home-left {
+    flex: 1;
+    text-align: center;
+}
+
+
+.intro-image {
+    width: 80%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.home-right {
+    flex: 2;
+    padding: 20px;
+}
+
+.read-more-btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #04AA6D;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.read-more-btn:hover {
+    background-color: #038a58;
+}
+
+.facebook:hover{
+    color: #316FF6;
+}
+
+.instagram:hover{
+    background: linear-gradient(
+            to right,
+            #feda75,  /* Light Yellow */
+            #fa7e1e,  /* Orange */
+            #d62976,  /* Pink */
+            #962fbf,  /* Purple */
+            #4f5bd5   /* Blue */
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; /* Text fill becomes transparent */
+    background-clip: text; /* Fallback for other browsers */
+    color: transparent; /* Ensure text is transparent by default */
+}
+
+.twitter:hover{
+    color: #14171A;
+}
+
+
+/* Cancel Flights Form Styling */
+#cancel-flights,
+#faq,
+.passenger-form{
+    padding: 20px;
+    background-color: #FFFFFF; /* Consistent white background */
+    height: calc(100vh - 150px); /* Adjust height to fill the screen below the top nav */
+    overflow-y: auto; /* Handle large tables with scroll */
+}
+
+.cancel-flights-form,
+.faq-form,
+.passenger-form{
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.cancel-flights-form label
+.faq-form label,
+.passenger-form label{
+    font-size: 16px;
+    color: #333333;
+}
+
+.cancel-flights-form input,
+.cancel-flights-form button,
+.faq-form input,
+.faq-form button{
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.cancel-btn,
+.show-flight{
+    background-color: #04AA6D;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.cancel-btn:hover {
+    background-color: #028A5F;
+}
+
+
+/* Flight Booking Form (reuse styles from before) */
+.flight-booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 500px;
+    padding: 20px;
+    background-color: #F9F9F9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.flight-booking-form label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333333;
+}
+
+.flight-booking-form select,
+.flight-booking-form input[type="date"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.flight-booking-form select:focus,
+.flight-booking-form input[type="date"]:focus {
+    outline: none;
+    border-color: #04AA6D;
+    box-shadow: 0 0 5px rgba(0, 170, 109, 0.5);
+}
+
+.submit-btn {
+    padding: 10px 20px;
+    background-color: #04AA6D;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #028a50;
+}
+
+/* Flight Schedule Section */
+#flight-schedule {
+    padding: 20px;
+    background-color: #FFFFFF; /* Consistent white background */
+    height: calc(100vh - 150px); /* Adjust height to fill the screen below the top nav */
+    overflow-y: auto; /* Handle large tables with scroll */
+}
+
+/* Flight Schedule Table */
+.flight-schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #F9F9F9;
+    border-radius: 8px;
+    overflow: hidden; /* For rounded corners */
+}
+
+.flight-schedule-table th,
+.flight-schedule-table td {
+    text-align: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.flight-schedule-table th {
+    background-color: #04AA6D; /* Matches the website's color scheme */
+    color: white;
+    font-size: 16px;
+}
+
+.flight-schedule-table tr:hover {
+    background-color: #F1F1F1;
+}
+
+.flight-schedule-table td {
+    font-size: 14px;
+}
+
+.flight-schedule-table tbody tr:last-child td {
+    border-bottom: none; /* Remove border from the last row */
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+    .flight-schedule-table th, .flight-schedule-table td {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
+
