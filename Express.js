@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, 'ARS')));
 app.use('/web', webRouter);
 
 //Setting up API file
-app.use('/web/api/posts', posts);
+app.use('/web/api/users', posts);
 
 //Catch all
 app.use(notFound);

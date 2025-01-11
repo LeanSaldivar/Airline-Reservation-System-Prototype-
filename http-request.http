@@ -1,6 +1,20 @@
 ### POST sample request to example server
-POST http://localhost:1000/web/api/posts
+POST http://localhost:1000/web/api/users
 Content-Type: application/x-www-form-urlencoded
+
+flyingFrom= Philippines &
+movingTo= New Zealand &
+departureDate= today &
+returnDate= tomorrow &
+travelClass= First Class
+
+### GET request to example server
+GET http://localhost:1000/web/api/users
+
+
+### UPDATE request to example server
+PUT http://localhost:1000/web/api/users/Q58X1
+Content-type: application/x-www-form-urlencoded
 
 flyingFrom= Philippines &
 movingTo= New Zealand &
@@ -9,12 +23,8 @@ returnDate= tomorrow &
 travelClass= First Class &
 flightStatus= Active
 
-### GET request to example server
-GET http://localhost:1000/web/api/posts/P99H9
-
-
-### UPDATE request to example server
-PUT http://localhost:1000/web/api/posts/MFFP9
+### PATCH request to exapmle server
+PATCH http://localhost:1000/web/api/users/3ALDL
 Content-type: application/x-www-form-urlencoded
 
 flightStatus=Positive
@@ -22,5 +32,7 @@ flightStatus=Positive
 
 ### DELETE request to example server
 DELETE http://localhost:1000/web/api/posts/M3WJV
+
+
 
 

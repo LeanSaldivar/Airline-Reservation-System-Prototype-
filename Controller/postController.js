@@ -1,3 +1,5 @@
+
+
 function makeid(length) {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -12,10 +14,18 @@ function makeid(length) {
 
 //sample database
 let users = [
-    { flightCode: makeid(5), flyingFrom: 'New York', movingTo: 'Paris', departureDate: '12/29/2024', returnDate: '12/30/2024', travelClass: 'Business', flightStatus: 'Cancelled'},
-    { flightCode: makeid(5), flyingFrom: 'Tokyo', movingTo: 'Sydney', departureDate: '12/31/2024', returnDate: '1/25/2025', travelClass: 'Economy',  flightStatus: 'Cancelled'},
-    { flightCode: makeid(5), flyingFrom: 'London', movingTo: 'Paris', departureDate: '12/29/2024', returnDate: '12/30/2024', travelClass: 'FirstClass', flightStatus: 'Cancelled'},
+    { flightCode: makeid(5), flyingFrom: 'New York', movingTo: 'Paris', departureDate: '12/29/2024', returnDate: '12/30/2024', travelClass: 'Business', flightStatus: 'TBA'},
+    { flightCode: makeid(5), flyingFrom: 'Tokyo', movingTo: 'Sydney', departureDate: '12/31/2024', returnDate: '1/25/2025', travelClass: 'Economy',  flightStatus: 'TBA'},
+    { flightCode: makeid(5), flyingFrom: 'London', movingTo: 'Paris', departureDate: '12/29/2024', returnDate: '12/30/2024', travelClass: 'FirstClass', flightStatus: 'TBA'},
 ];
+
+function makeUniqueId(length) {
+    let id;
+    do {
+        id = makeid(length);
+    } while (users.some((user) => user.flightCode === id));
+    return id;
+}
 
 // Get all posts
 const getPost = (req, res) => {
@@ -43,7 +53,7 @@ const getPosts = (req, res) => {
 // Create new post
 const createPost = (req, res) => {
     const newPost = {
-        flightCode: makeid(5),
+        flightCode: makeUniqueId(5),
         flyingFrom: req.body.flyingFrom,
         movingTo: req.body.movingTo,
         departureDate: req.body.departureDate,
@@ -97,4 +107,31 @@ const deletePost = (req, res) => {
     res.status(200).json({ msg: `User with id ${flightCode} deleted`, users });
 };
 
-module.exports = { getPost, getPosts, createPost, updatePost, deletePost };
+// Patch Request
+const patchPost = (req, res) => {
+    try {
+        const {
+            body, // Data to update
+            params: { flightCode }, // Flight code to identify the user
+        } = req;
+
+        // Find the user by flightCode
+        const user = users.find((user) => user.flightCode === flightCode);
+
+        // If user is not found, return a 404 error
+        if (!user) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+
+        // Update only the fields provided in the body
+        Object.assign(user, body);
+
+        // Send back the updated user
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(400).json({ msg: 'Incomplete data' });
+    }
+};
+
+
+module.exports = { getPost, getPosts, createPost, updatePost, deletePost, patchPost };

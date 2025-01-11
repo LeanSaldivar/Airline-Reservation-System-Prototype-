@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getPost, getPosts, createPost, updatePost, deletePost } = require('../Controller/postController.js');
+const { getPost, getPosts, createPost, updatePost, deletePost, patchPost } = require('../Controller/postController.js');
 
 //Req Query
 //get all posts
@@ -17,5 +17,7 @@ router.put('/:flightCode', updatePost);
 
 //Delete Post
 router.delete('/:flightCode', deletePost);
+
+router.patch('/:flightCode', patchPost);
 
 module.exports = router;

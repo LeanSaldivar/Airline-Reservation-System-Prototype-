@@ -18,9 +18,9 @@ async function cancelFlightForm(e) {
     }
 
     try {
-        // Send PUT request
-        const res = await fetch(`http://localhost:1000/web/api/posts/${flightId}`, {
-            method: 'PUT',
+        // Send PATCH request
+        const res = await fetch(`http://localhost:1000/web/api/users/${flightId}`, {
+            method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ flightStatus: 'Cancelled' }),
         });
@@ -54,7 +54,7 @@ async function flightForm(e) {
 
     try {
         // Send POST request with form data
-        const res = await fetch('http://localhost:1000/web/api/posts', {
+        const res = await fetch('http://localhost:1000/web/api/users', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ flyingFrom, movingTo, departureDate, returnDate, travelClass}),

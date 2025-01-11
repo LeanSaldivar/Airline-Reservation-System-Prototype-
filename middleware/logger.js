@@ -5,10 +5,11 @@ const logger = (req, res, next) => {
         GET: 'blue',
         POST: 'green',
         PUT: 'yellow',
-        DELETE: 'red'
+        DELETE: 'red',
+        PATCH: 'brightWhite'
     };
 
-    const color = methodColors[req.method] || white;
+    const color = methodColors[req.method] || gray;
 
     console.log(`
     ${req.method} 
