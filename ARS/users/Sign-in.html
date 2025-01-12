@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Code by: www.codeinfoweb.com -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Animated Sign-Up Form</title>
+    <!-- Tailwind public CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="/CSS/SigninStyle.css"/>
+</head>
+
+<body class="flex items-center justify-center min-h-screen bg-gray-50">
+<div id="sign-up-form" class="w-full max-w-md">
+    <div class="bg-white shadow-xl rounded-xl p-10">
+        <!-- Title -->
+        <h2
+                id="form-title"
+                class="text-3xl uppercase font-bold text-center mb-8 text-gray-800"
+        >
+            Sign Up
+        </h2>
+        <form action="#" method="POST" class="space-y-6">
+            <!-- Name Input -->
+            <div id="first-name-input">
+                <label for="firstName" class="block text-sm text-gray-600 mb-2">First Name</label>
+                <input type="text" id="firstName" name="firstName" required
+                        class="w-full px-4 py-3 border border-gray-200 rounded-lg shadow-sm transition-all duration-300"
+                        placeholder="First name"/>
+            </div>
+
+            <div id="last-name-input">
+            <label for="lastName" class="block text-sm text-gray-600 mb-2">Last Name</label>
+            <input type="text" id="lastName" name="lastName" required
+                   class="w-full px-4 py-3 border border-gray-200 rounded-lg shadow-sm transition-all duration-300"
+                   placeholder="Last name"/>
+            </div>
+
+            <!-- Email Input -->
+            <div id="email-input">
+                <label for="email" class="block text-sm text-gray-600 mb-2"
+                >Email</label
+                >
+                <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        class="w-full px-4 py-3 border border-gray-200 rounded-lg shadow-sm transition-all duration-300"
+                        placeholder="Enter your email"
+                />
+            </div>
+
+            <!-- Password Input -->
+            <div id="password-input">
+                <label for="password" class="block text-sm text-gray-600 mb-2"
+                >Password</label
+                >
+                <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        required
+                        class="w-full px-4 py-3 border border-gray-200 rounded-lg shadow-sm transition-all duration-300"
+                        placeholder="Enter your password"
+                />
+            </div>
+
+            <!-- Confirm Password Input -->
+            <div id="confirm-password-input">
+                <label for="confirm-password" class="block text-sm text-gray-600 mb-2"
+                >Confirm Password</label
+                >
+                <input
+                        type="password"
+                        id="confirm-password"
+                        name="confirm-password"
+                        required
+                        class="w-full px-4 py-3 border border-gray-200 rounded-lg shadow-sm transition-all duration-300"
+                        placeholder="Confirm your password"
+                />
+            </div>
+
+            <!-- Terms and Conditions -->
+            <div class="flex items-center space-x-2">
+                <input
+                        type="checkbox"
+                        id="terms"
+                        name="terms"
+                        class="form-checkbox h-4 w-4 text-teal-600 border-gray-300 rounded transition duration-200"
+                />
+                <label for="terms" class="text-sm text-gray-600">I agree to the terms and conditions</label>
+            </div>
+
+            <!-- Sign Up Button -->
+            <div id="sign-up-button">
+                <button
+                        type="submit"
+                        class="w-full py-3 bg-teal-600 text-white text-lg rounded-lg hover:bg-teal-700 transition duration-300 ease-in-out shadow-lg"
+                >
+                    Sign Up
+                </button>
+            </div>
+
+            <!-- Or Sign Up with Google -->
+            <div class="mt-4">
+                <button class="google-signin-btn">
+                    <img src="https://w7.pngwing.com/pngs/989/129/png-transparent-google-logo-google-search-meng-meng-company-text-logo-thumbnail.png" class="google-icon" alt="Google logo">
+                    Continue with Google
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script src="/script.js"></script>
+</body>
+</html>

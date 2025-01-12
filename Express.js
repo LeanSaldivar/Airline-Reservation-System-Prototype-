@@ -8,6 +8,7 @@ const cors = require('cors');
 //Routing
 const webRouter = require("./routes/WebRoute");
 const posts = require('./routes/apiRoute');
+const accountRoute = require("./routes/accountRoute");
 //const payment = require('./routes/paymentRoute');
 
 
@@ -30,12 +31,15 @@ app.use(logger);
 
 // setup static folder for our html folder
 app.use(express.static(path.join(__dirname, 'ARS')));
+app.use(express.static(path.join(__dirname, 'public')));
 
-//Setting up HTML route
+
+//Setting up Routes
 app.use('/web', webRouter);
-
-//Setting up API route
 app.use('/web/api/users', posts);
+app.use('/web/api/account', accountRoute);
+
+
 
 //Catch all
 app.use(notFound);

@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap");
+
+body {
+    background: linear-gradient(to right, #a8c7ff, #ffffff); /* Light blue to white gradient */
+    font-family: "Space Grotesk", sans-serif;
+}
+
+input:focus {
+    outline: none;
+    border-color: #5da5e0; /* Light blue border when focused */
+}
+
+.bg-white {
+    background-color: #ffffff; /* White background for the form */
+}
+
+.bg-teal-600 {
+    background-color: #a8c7ff; /* Light blue for the button */
+}
+
+.bg-teal-700 {
+    background-color: #7fa9db; /* Slightly darker blue on hover */
+}
+
+.text-teal-600 {
+    color: #a8c7ff; /* Light blue text color */
+}
+
+.text-teal-700 {
+    color: #7fa9db; /* Slightly darker blue text color on hover */
+}
+
+.text-gray-600 {
+    color: #4a4a4a; /* Dark gray for labels */
+}
+
+.text-gray-800 {
+    color: #333333; /* Dark gray for the form title */
+}
+
+.text-white {
+    color: white; /* White text color for the button */
+}
+
+.bg-teal-600:hover {
+    background-color: #7fa9db; /* Hover effect for the submit button */
+}
+
+.shadow-xl {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Soft shadow for the form */
+}
+
+.w-full {
+    width: 100%; /* Full width inputs and button */
+}
+
+.max-w-md {
+    max-width: 100%; /* Make sure it doesn't exceed the page width */
+}
+
+.rounded-xl {
+    border-radius: 1rem; /* Rounded corners */
+}
+
+.py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.transition-all {
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.google-signin-btn {
+    background-color: #db4437; /* Google Red */
+    color: white;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.google-signin-btn:hover {
+    background-color: #c1351d; /* Darker Google Red on hover */
+}
+
+.google-icon {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+}

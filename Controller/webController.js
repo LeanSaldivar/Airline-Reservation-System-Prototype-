@@ -1,6 +1,5 @@
 const path = require("path");
 
-//tbc
 const ARS_PATH = path.join(__dirname, '../ARS');
 
 const getWebsiteData = function (req, res) {
@@ -27,4 +26,20 @@ const getPayment = function(req, res) {
     }
 }
 
-module.exports = { getWebsiteData, getAdmin, getPayment };
+const getLogin = function(req, res) {
+    try {
+        res.sendFile(path.join(ARS_PATH, 'users/Login.html'));
+    } catch (e) {
+        res.status(500).json('Error loading website data');
+    }
+};
+
+const getSignin = function (req, res) {
+    try {
+        res.sendFile(path.join(ARS_PATH, 'users/Sign-in.html'));
+    } catch (e) {
+        res.status(500).json('Error loading website data');
+    }
+}
+
+module.exports = { getWebsiteData, getAdmin, getPayment, getLogin, getSignin };

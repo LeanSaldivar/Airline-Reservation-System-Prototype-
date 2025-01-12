@@ -67,7 +67,7 @@ a:hover, a:active {
     transition: all 0.3s ease;
 }
 
-/* Login button */
+/* users button */
 .topnav .btn.login {
     background-color: #04AA6D;
     color: #FFFFFF;

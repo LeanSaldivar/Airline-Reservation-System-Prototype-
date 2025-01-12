@@ -1,29 +1,17 @@
-let {users, makeUniqueId} = require ('../middleware/flightCode.js');
+let { users, makeUniqueId } = require('../Database/FlightUsers'); // Re-import users and makeUniqueId if needed
 
-// Get all posts
 const getPost = (req, res) => {
     const limit = parseInt(req.query.limit);
-
     if (!isNaN(limit) && limit > 0) {
         return res.status(200).json(users.slice(0, limit));
     }
     res.status(200).json(users);
 };
 
-// Get single post
 const getPosts = (req, res) => {
-    const flightCode = (req.params.flightCode); // Extract ID from params
-    const user = users.find((user) => user.flightCode === flightCode); // Find user with matching ID
-
-    if (!user) {
-        return res.status(404).json({ msg: `A post with the id of ${flightCode} does not exist` });
-    }
-
-    res.status(200).json(user); // Return the user if found
+    res.status(200).json(req.user); // Middleware already ensures req.user is valid
 };
 
-
-// Create new post
 const createPost = (req, res) => {
     const newPost = {
         flightCode: makeUniqueId(5),
@@ -32,11 +20,11 @@ const createPost = (req, res) => {
         departureDate: req.body.departureDate,
         returnDate: req.body.returnDate,
         travelClass: req.body.travelClass,
-        flightStatus: 'TBA'
+        flightStatus: 'TBA',
     };
 
-    //if you want to add more conditions, do so with  || operator
-    if (!newPost.flyingFrom  || !newPost.movingTo || !newPost.departureDate ||!newPost.returnDate || !newPost.travelClass) {
+    if (!newPost.flyingFrom || !newPost.movingTo || !newPost.departureDate ||
+        !newPost.returnDate || !newPost.travelClass) {
         return res.status(400).json({ msg: 'Incomplete data' });
     }
 
@@ -44,67 +32,32 @@ const createPost = (req, res) => {
     res.status(201).json(newPost);
 };
 
-// Update post
 const updatePost = (req, res) => {
-    const flightCode = (req.params.flightCode);
-    const user = users.find((user) => user.flightCode === flightCode);
-
-    if (!user) {
-        return res.status(404).json({ msg: `A post with the id of ${flightCode} does not exist` });
-    }
-
-    // add ,description to update another item
     const { flyingFrom, movingTo, departureDate, returnDate, travelClass, flightStatus } = req.body;
+    const user = req.user; // Middleware ensures user is valid
+
     if (flyingFrom) user.flyingFrom = flyingFrom;
     if (movingTo) user.movingTo = movingTo;
     if (departureDate) user.departureDate = departureDate;
     if (returnDate) user.returnDate = returnDate;
     if (travelClass) user.travelClass = travelClass;
     if (flightStatus) user.flightStatus = flightStatus;
-    //Commenting this code because we only want title
-    //if (description) user.description = description;
 
     res.status(200).json(user);
 };
 
-// Delete post
 const deletePost = (req, res) => {
-    const flightCode = (req.params.flightCode);
-    const user = users.find((user) => user.flightCode === flightCode);
-
-    if (!user) {
-        return res.status(404).json({ msg: `A post with the id of ${flightCode} does not exist` });
-    }
-
-    users = users.filter((user) => user.flightCode !== flightCode);
-    res.status(200).json({ msg: `User with id ${flightCode} deleted`, users });
+    users = users.filter((user) => user.flightCode !== req.user.flightCode); // Middleware ensures req.user is valid
+    res.status(200).json({ msg: `User with id ${req.user.flightCode} deleted`, users });
 };
 
-// Patch Request
 const patchPost = (req, res) => {
     try {
-        const {
-            body, // Data to update
-            params: { flightCode }, // Flight code to identify the user
-        } = req;
-
-        // Find the user by flightCode
-        const user = users.find((user) => user.flightCode === flightCode);
-
-        // If user is not found, return a 404 error
-        if (!user) {
-            return res.status(404).json({ msg: 'User not found' });
-        }
-
-        // Update only the fields provided in the body
-        Object.assign(user, body);
-
-        // Send back the updated user
-        res.status(200).json(user);
+        Object.assign(req.user, req.body); // Middleware ensures req.user is valid
+        res.status(200).json(req.user);
     } catch (error) {
         res.status(400).json({ msg: 'Incomplete data' });
     }
 };
-
 
 module.exports = { getPost, getPosts, createPost, updatePost, deletePost, patchPost };

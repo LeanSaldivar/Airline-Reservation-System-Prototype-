@@ -6,6 +6,13 @@ This project is a prototype of an Airline Reservation System (ARS) designed to f
 - **Booking Management**: Book and cancel flight reservations with real-time seat availability updates.
 - **Viewing Schedules**: View Flight reservations with real time seat availability updates
 
+## Changes
+#### January 12, 2025: 8:19PM
+- Added HTML Files for Logging in and Signing in
+- Added routing and controller for signing-in
+- Added validation for GET request
+- Will add validation for POST request body
+
 ## Technologies Used
 
 - **Frontend**: HTML, CSS, JavaScript

@@ -3,13 +3,13 @@ POST http://localhost:1000/web/api/users
 Content-Type: application/x-www-form-urlencoded
 
 flyingFrom= Philippines &
-movingTo= New Zealand &
+movingTo= Mogadishu &
 departureDate= today &
 returnDate= tomorrow &
 travelClass= First Class
 
 ### GET request to example server
-GET http://localhost:1000/web/api/users
+GET http://localhost:1000/web/api/account
 
 
 ### UPDATE request to example server
@@ -24,7 +24,7 @@ travelClass= First Class &
 flightStatus= Active
 
 ### PATCH request to exapmle server
-PATCH http://localhost:1000/web/api/users/3ALDL
+PATCH http://localhost:1000/web/api/users/9IYQF
 Content-type: application/x-www-form-urlencoded
 
 flightStatus=Positive

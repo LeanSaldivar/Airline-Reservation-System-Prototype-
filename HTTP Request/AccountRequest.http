@@ -1,0 +1,12 @@
+### POST request to Server
+POST http://localhost:1000/web/api/account
+Content-type: application/x-www-form-urlencoded
+
+firstName=Lean&lastName=Saldivar&email=he&password=yourmom&confirmPassword= yourmom
+
+
+### GET request to example server
+GET http://localhost:1000/web/api/account
+Content-type: application/x-www-form-urlencoded
+
+
