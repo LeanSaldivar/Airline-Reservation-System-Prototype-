@@ -1,19 +1,42 @@
 let { users, makeUniqueId } = require('../Database/FlightUsers'); // Re-import users and makeUniqueId if needed
 
-const getPost = (req, res) => {
-    const limit = parseInt(req.query.limit);
-    if (!isNaN(limit) && limit > 0) {
-        return res.status(200).json(users.slice(0, limit));
+
+// Function to get a specific flight by ID
+const getPostById = (req, res) => {
+    const flightId = parseInt(req.params.id); // Parse id from the route parameter
+
+    const flightSchedule = users.find(flight => flight.id === flightId); // Find the account by ID
+
+    if (!flightSchedule) {
+        // If no account found, respond with a 404 error
+        return res.status(404).json({ msg: 'Flight not found' });
     }
-    res.status(200).json(users);
+
+    // If account is found, return it
+    res.status(200).json(flightSchedule);
 };
 
-const getPosts = (req, res) => {
-    res.status(200).json(req.user); // Middleware already ensures req.user is valid
+// Function to get a specific flight by flightCode
+const getPostByFlightCode = (req, res) => {
+    const { flightCode } = req.params; // Use flightCode in the route parameter
+    const flightSchedule = users.find(flight => flight.flightCode === flightCode); // Find the flight by flightCode
+
+    if (!flightSchedule) {
+        // If no flight found, respond with a 404 error
+        return res.status(404).json({ msg: 'Flight not found' });
+    }
+
+    // If flight is found, return it
+    res.status(200).json(flightSchedule);
 };
+
+const getAllFlightSchedule = (req, res) => {
+    res.status(200).json(users); // Return all flight schedules directly
+    }
 
 const createPost = (req, res) => {
     const newPost = {
+        id: users.length + 1,
         flightCode: makeUniqueId(5),
         flyingFrom: req.body.flyingFrom,
         movingTo: req.body.movingTo,
@@ -60,4 +83,5 @@ const patchPost = (req, res) => {
     }
 };
 
-module.exports = { getPost, getPosts, createPost, updatePost, deletePost, patchPost };
+module.exports = { getPostById, getPostByFlightCode, getAllFlightSchedule,
+                    createPost, updatePost, deletePost, patchPost };

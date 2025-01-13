@@ -1,14 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const { getPost, getPosts, createPost, updatePost, deletePost, patchPost } = require('../Controller/postController.js');
+const { getPostById, getAllFlightSchedule, createPost, getPostByFlightCode,
+    updatePost, deletePost, patchPost } =
+    require('../Controller/postController.js');
+
 const { validateFlightCode } = require('../middleware/flightCode.js');
 
-//Req Query
-//get all posts
-router.get('/',  getPost);
+///get user by Flight ID
+router.get('/flight/:id', getPostById); // Search by flight ID
 
-// GET a single user by ID
-router.get('/:flightCode', getPosts);
+//GET a single flight by Flight Code
+router.get('/flightcode/:flightCode', getPostByFlightCode); // Search by flight code
+
+//GET all flight schedules
+router.get('/flights', getAllFlightSchedule);
 
 //Create new post
 router.post('/', validateFlightCode, createPost);

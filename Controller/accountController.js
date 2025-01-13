@@ -1,11 +1,10 @@
 let { loggedAccounts,
     unloggedAccounts }
     = require('../Database/UserAccounts');
-const {users} = require("../Database/FlightUsers");
-const {validationResult} = require("express-validator");
+const {validationResult, matchedData} = require("express-validator");
 
 // Function to get a specific account by ID
-const getAccount = (req, res) => {
+const getAccountById = (req, res) => {
     const accountId = parseInt(req.params.id); // Parse id from the route parameter
 
     const account = unloggedAccounts.find(acc => acc.id === accountId); // Find the account by ID
@@ -14,12 +13,11 @@ const getAccount = (req, res) => {
         // If no account found, respond with a 404 error
         return res.status(404).json({ msg: 'Account not found' });
     }
-
     // If account is found, return it
     res.status(200).json(account);
 };
 
-const getAllAccounts = (req, res) => {
+const GetAccountByFilter = (req, res) => {
     // Check for validation errors
     const errors = validationResult(req);
     console.log(errors);
@@ -50,29 +48,35 @@ const getAllAccounts = (req, res) => {
 };
 
 const createAccount = (req, res) => {
+    const errors = validationResult(req);
+
+    // Check if there are validation errors
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    // Extract only the validated and sanitized data
+    const data = matchedData(req);
+
+    // Create the new account using the validated data
     const newAccount = {
-        id: unloggedAccounts.length + 1,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        password: req.body.password,
-        confirmPassword: req.body.confirmPassword
+        id: unloggedAccounts.length + 1, // Generate a unique ID
+        ...data, // Use validated and sanitized fields directly
     };
 
-    if (!newAccount.firstName || !newAccount.lastName || !newAccount.email ||
-        !newAccount.password || !newAccount.confirmPassword) {
-        return res.status(404).json({msg : 'Incomplete Data'});
-    }
-
+    // Server-side additional validation for passwords
     if (newAccount.password !== newAccount.confirmPassword) {
-        return res.status(404).json({msg : 'Does not match with password'});
+        return res.status(400).json({ msg: 'Passwords do not match' });
     }
 
+    // Add the new account to the database
     unloggedAccounts.push(newAccount);
+
+    // Respond with the newly created account
     res.status(201).json(newAccount);
-}
+};
 
-module.exports = { getAccount, createAccount, getAllAccounts };
+module.exports = { getAccountById, createAccount,  GetAccountByFilter };
 
-//TBC 2:02:06
-//Will implement Validation for POST request
+// DONE IMPLEMENTING VALIDATION REQUEST.
+//TIS TIME FOR COOKIES

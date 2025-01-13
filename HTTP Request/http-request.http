@@ -24,7 +24,7 @@ travelClass= First Class &
 flightStatus= Active
 
 ### PATCH request to exapmle server
-PATCH http://localhost:1000/web/api/users/9IYQF
+PATCH http://localhost:1000/web/api/users/TITYC
 Content-type: application/x-www-form-urlencoded
 
 flightStatus=Positive
