@@ -31,6 +31,13 @@ const getPostByFlightCode = (req, res) => {
 };
 
 const getAllFlightSchedule = (req, res) => {
+    console.log(req.session);
+    console.log(req.session.id);
+
+    req.session.visited = true;
+
+    res.cookie('hello', 'worlds', { maxAge: 60000, signed: true });
+
     res.status(200).json(users); // Return all flight schedules directly
     }
 

@@ -3,6 +3,8 @@ let { loggedAccounts,
     = require('../Database/UserAccounts');
 const {validationResult, matchedData} = require("express-validator");
 
+
+
 // Function to get a specific account by ID
 const getAccountById = (req, res) => {
     const accountId = parseInt(req.params.id); // Parse id from the route parameter
@@ -18,6 +20,33 @@ const getAccountById = (req, res) => {
 };
 
 const GetAccountByFilter = (req, res) => {
+
+    console.log(req.session);
+    console.log(req.session.id);
+    req.sessionStore.get(req.session.id, (err, data) => {
+        if (err) {
+            console.log(err);
+            throw err;
+        }
+        console.log(data);
+    });
+
+    req.session.visited = true;
+
+
+    //Sending cookies into the browser
+    res.cookie('hello', 'world', { maxAge: 60000, signed: true });
+
+    //Prints cookies in the console
+    console.log(req.headers.cookie);
+    console.log(req.cookies);
+    console.log(req.signedCookies.hello); //how to reference hello here
+
+    // Check if the 'hello' cookie exists and has the correct value
+    if (!req.signedCookies.hello || req.signedCookies.hello !== "world") {
+        return res.status(403).json({ msg: "Invalid cookies" }); // Return an error if cookies are invalid
+    }
+
     // Check for validation errors
     const errors = validationResult(req);
     console.log(errors);
@@ -37,7 +66,7 @@ const GetAccountByFilter = (req, res) => {
         );
 
         if (filteredAccounts.length === 0) {
-            return res.status(404).json({ msg: 'No accounts found matching the filter' });
+            return res.status(404).json({ msg: "No accounts found matching the filter" });
         }
 
         return res.status(200).json(filteredAccounts);
@@ -46,6 +75,7 @@ const GetAccountByFilter = (req, res) => {
     // If no filter, return all accounts
     res.status(200).json(unloggedAccounts);
 };
+
 
 const createAccount = (req, res) => {
     const errors = validationResult(req);
@@ -78,5 +108,5 @@ const createAccount = (req, res) => {
 
 module.exports = { getAccountById, createAccount,  GetAccountByFilter };
 
-// DONE IMPLEMENTING VALIDATION REQUEST.
-//TIS TIME FOR COOKIES
+// DONE IMPLEMENTING SAMPLE COOKIES
+//TIS TIME FOR SESSIONS PT2 BABY

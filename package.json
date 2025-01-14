@@ -14,8 +14,11 @@
   "dependencies": {
     "-": "^0.0.1",
     "colors": "^1.4.0",
+    "cookie-parser": "^1.4.7",
+    "cookies": "^0.9.1",
     "cors": "^2.8.5",
     "express": "^4.21.2",
+    "express-session": "^1.18.1",
     "express-validator": "^7.2.1",
     "validator": "^13.12.0"
   },

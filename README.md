@@ -7,6 +7,11 @@ This project is a prototype of an Airline Reservation System (ARS) designed to f
 - **Viewing Schedules**: View Flight reservations with real time seat availability updates
 
 ## Changes
+
+#### January 14,2025: 7:51PM
+- Added Cookies
+- Added Sessions
+
 #### January 12, 2025: 8:19PM
 - Added HTML Files for Logging in and Signing in
 - Added routing and controller for signing-in
