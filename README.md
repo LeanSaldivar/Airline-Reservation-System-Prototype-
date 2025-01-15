@@ -6,7 +6,28 @@ This project is a prototype of an Airline Reservation System (ARS) designed to f
 - **Booking Management**: Book and cancel flight reservations with real-time seat availability updates.
 - **Viewing Schedules**: View Flight reservations with real time seat availability updates
 
-## Changes
+## Changelog
+
+#### January 15, 2025: 7:58PM
+- **Login/Sign-in Authorization**
+   - Implemented login and sign-in functionality via POSTMAN.
+   - Validated user credentials and handled invalid login attempts with appropriate response codes (`401 Unauthorized`, `403 Forbidden`).
+
+- **Middleware for Authentication**
+   - Added middleware to restrict access to protected routes.
+   - Verified user sessions before granting access to flight APIs.
+
+- **API Security Enhancements**
+   - Used signed session cookies to track authenticated users.
+   - Configured error handling for invalid or expired sessions.
+
+- **Data Validation Improvements**
+   - Checked for missing or incomplete fields during the login process.
+   - Ensured robust validation and appropriate error handling for all user inputs.
+
+- **Code Modularization**
+   - Separated authentication logic into middleware for cleaner and more maintainable code.
+   - Refactored `postController.js` to delegate repetitive tasks to middleware.
 
 #### January 14,2025: 7:51PM
 - Added Cookies

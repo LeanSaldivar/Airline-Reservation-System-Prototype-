@@ -167,7 +167,7 @@
                 // Async function to load data
                 async function loadData() {
                     try {
-                        const response = await fetch('http://localhost:1000/web/api/users');
+                        const response = await fetch('http://localhost:1000/web/api/users/flights');
                         if (!response.ok) {
                             throw new Error(`HTTP error! Status: ${response.status}`);
                         }

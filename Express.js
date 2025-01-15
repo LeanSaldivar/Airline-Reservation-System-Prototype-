@@ -23,6 +23,14 @@ const PORT = process.env.PORT || 1000;
 
 app.use(cors());
 
+app.use(cookieParser("helloworld")); // Parses cookies attached to client requests
+app.use(session({
+    secret: 'lean the dev', //Should be something harder
+    saveUninitialized: false, //set false to avoid saving unmodified session data to the session store
+    resave: false,
+    cookie: { maxAge: 60000 * 60} //sets time to milliseconds
+}));
+
 //Body parser middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -30,15 +38,7 @@ app.use(express.urlencoded({extended: false}));
 //Logger middleware
 app.use(logger);
 
-app.use(cookieParser("helloworld")); // Parses cookies attached to client requests
-app.use(session({
-    secret: 'lean the dev', //Should be something harder
-    saveUninitialized: false, //set false to avoid saving unmodified session data to the session store
-    resave: false,
-    cookie: {
-        maxAge: 60000 * 60,//sets time to milliseconds
-    }
-}));
+
 
 // setup static folder for our html folder
 app.use(express.static(path.join(__dirname, 'ARS')));
@@ -49,8 +49,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/web', webRouter);
 app.use('/web/api/users', posts);
 app.use('/web/api/account', accountRoute);
-
-
 
 //Catch all
 app.use(notFound);

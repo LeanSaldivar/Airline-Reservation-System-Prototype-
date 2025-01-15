@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { query, body } = require('express-validator');
-const { getAccountById, createAccount, GetAccountByFilter } = require("../Controller/accountController");
+const { getAccountById, createAccount, GetAccountByFilter, getAuth, getAuthStatus } = require("../Controller/accountController");
 
 router.get('/:id', getAccountById);
 
@@ -13,9 +13,16 @@ router.get('/', query('filter')
     .isLength({ min: 3, max: 10 })
     .withMessage('Must be at least 3-10 characters long'),  GetAccountByFilter);
 
-//Validation for Post request
+//Checks if Authentication is valid
+router.get('/auth/status', getAuthStatus);
+
+//Signing in
 router.post('/',
     [
+        body('displayName')
+            .notEmpty().withMessage('Display Name cannot be empty')
+            .isLength({ min: 5, max: 32 }).withMessage('Display Name must be 5-32 characters long')
+            .isString().withMessage('Display Name must be a string'),
         body('firstName')
             .notEmpty().withMessage('First Name cannot be empty')
             .isLength({ min: 5, max: 32 }).withMessage('First Name must be 5-32 characters long')
@@ -34,5 +41,18 @@ router.post('/',
             .notEmpty().withMessage('Confirm Password cannot be empty')
     ],
     createAccount);
+
+//Authentication or Logging in
+router.post('/auth', [
+        body('displayName')
+            .notEmpty().withMessage('Display Name cannot be empty')
+            .isLength({ min: 5, max: 32 }).withMessage('Display Name must be 5-32 characters long')
+            .isString().withMessage('Display Name must be a string'),
+        body('password')
+            .notEmpty().withMessage('Password cannot be empty')
+            .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+], getAuth);
+
+
 
 module.exports = router;

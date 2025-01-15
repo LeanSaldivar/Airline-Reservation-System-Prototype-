@@ -4,6 +4,7 @@ const { getPostById, getAllFlightSchedule, createPost, getPostByFlightCode,
     updatePost, deletePost, patchPost } =
     require('../Controller/postController.js');
 
+const requireAuth = require('../middleware/getAuth.js'); // Import the middleware function directly
 const { validateFlightCode } = require('../middleware/flightCode.js');
 
 ///get user by Flight ID
@@ -15,15 +16,9 @@ router.get('/flightcode/:flightCode', getPostByFlightCode); // Search by flight 
 //GET all flight schedules
 router.get('/flights', getAllFlightSchedule);
 
-//Create new post
-router.post('/', validateFlightCode, createPost);
-
-//Update a current post
-router.put('/:flightCode', validateFlightCode, updatePost);
-
-//Delete Post
-router.delete('/:flightCode', validateFlightCode,  deletePost);
-
-router.patch('/:flightCode', validateFlightCode,  patchPost);
+router.post('/', validateFlightCode, requireAuth, createPost);
+router.put('/:flightCode', validateFlightCode, requireAuth, updatePost);
+router.delete('/:flightCode', validateFlightCode, requireAuth,  deletePost);
+router.patch('/:flightCode', validateFlightCode, requireAuth,  patchPost);
 
 module.exports = router;

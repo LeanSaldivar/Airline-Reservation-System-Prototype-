@@ -1,9 +1,8 @@
 let { loggedAccounts,
     unloggedAccounts }
     = require('../Database/UserAccounts');
+
 const {validationResult, matchedData} = require("express-validator");
-
-
 
 // Function to get a specific account by ID
 const getAccountById = (req, res) => {
@@ -20,33 +19,6 @@ const getAccountById = (req, res) => {
 };
 
 const GetAccountByFilter = (req, res) => {
-
-    console.log(req.session);
-    console.log(req.session.id);
-    req.sessionStore.get(req.session.id, (err, data) => {
-        if (err) {
-            console.log(err);
-            throw err;
-        }
-        console.log(data);
-    });
-
-    req.session.visited = true;
-
-
-    //Sending cookies into the browser
-    res.cookie('hello', 'world', { maxAge: 60000, signed: true });
-
-    //Prints cookies in the console
-    console.log(req.headers.cookie);
-    console.log(req.cookies);
-    console.log(req.signedCookies.hello); //how to reference hello here
-
-    // Check if the 'hello' cookie exists and has the correct value
-    if (!req.signedCookies.hello || req.signedCookies.hello !== "world") {
-        return res.status(403).json({ msg: "Invalid cookies" }); // Return an error if cookies are invalid
-    }
-
     // Check for validation errors
     const errors = validationResult(req);
     console.log(errors);
@@ -76,7 +48,6 @@ const GetAccountByFilter = (req, res) => {
     res.status(200).json(unloggedAccounts);
 };
 
-
 const createAccount = (req, res) => {
     const errors = validationResult(req);
 
@@ -99,6 +70,7 @@ const createAccount = (req, res) => {
         return res.status(400).json({ msg: 'Passwords do not match' });
     }
 
+
     // Add the new account to the database
     unloggedAccounts.push(newAccount);
 
@@ -106,7 +78,55 @@ const createAccount = (req, res) => {
     res.status(201).json(newAccount);
 };
 
-module.exports = { getAccountById, createAccount,  GetAccountByFilter };
+
+//get sample auth
+const getAuth = (req, res) => {
+    // Check if session already exists
+    if (req.session.user) {
+        console.log("Session already exists:", req.session.id);
+        return res.status(200).json({ msg: "Session already active" });
+    }
+
+    // Extract and validate credentials
+    const { displayName, password } = req.body;
+
+    const findUser = unloggedAccounts.find(user => user.displayName === displayName);
+    const checkPass = unloggedAccounts.find(user => user.password === password);
+
+    if (!findUser) {
+        return res.status(401).json({ msg: "Username does not exist" });
+    }
+
+    if (!checkPass) {
+        return res.status(401).json({ msg: "Invalid Password" });
+    }
+
+    // Create session for authenticated user
+    req.session.user = findUser;
+    req.session.visited = true;
+
+    // Sending signed cookie into the browser
+    res.cookie("hello", "world", { maxAge: 60000, signed: true });
+
+    console.log("New session created:", req.session.id);
+
+    return res.status(200).json(findUser);
+};
+
+//Checks Authentication Status
+const getAuthStatus = (req,res) => {
+    req.sessionStore.get(req.sessionID, (err, data) => {
+        if (err) {
+            console.log(err);
+        }
+
+        console.log(data);
+    })
+    return req.session.user ? res.status(200).send(req.session.user)
+        : res.status(401).json({ msg: 'Not Authenticated' });
+};
+
+module.exports = { getAccountById, createAccount,  GetAccountByFilter, getAuth, getAuthStatus };
 
 // DONE IMPLEMENTING SAMPLE COOKIES
 //TIS TIME FOR SESSIONS PT2 BABY
