@@ -3,4 +3,4 @@ const errorHandler = (err, req, res) => {
     res.status(statusCode).json({ msg: err.message || 'Server Error' });
 };
 
-module.exports = errorHandler;
+export default errorHandler;

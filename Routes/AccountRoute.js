@@ -1,12 +1,14 @@
-const express = require('express');
-const router = express.Router();
-const { query, body } = require('express-validator');
-const { getAccountById, createAccount, GetAccountByFilter, getAuth, getAuthStatus } = require("../Controller/accountController");
+import express from 'express';
+import { query, body } from 'express-validator';
+import { getAccountById, createAccount,
+        GetAccountByFilter, getAuth, getAuthStatus } from "../Controller/accountController.js";
 
-router.get('/:id', getAccountById);
+const accRouter = express.Router();
+
+accRouter.get('/:id', getAccountById);
 
 //Validation for get request
-router.get('/', query('filter')
+accRouter.get('/', query('filter')
     .optional()
     .isString()
     .notEmpty()
@@ -14,10 +16,10 @@ router.get('/', query('filter')
     .withMessage('Must be at least 3-10 characters long'),  GetAccountByFilter);
 
 //Checks if Authentication is valid
-router.get('/auth/status', getAuthStatus);
+accRouter.get('/auth/status', getAuthStatus);
 
 //Signing in
-router.post('/',
+accRouter.post('/',
     [
         body('displayName')
             .notEmpty().withMessage('Display Name cannot be empty')
@@ -43,7 +45,7 @@ router.post('/',
     createAccount);
 
 //Authentication or Logging in
-router.post('/auth', [
+accRouter.post('/auth', [
         body('displayName')
             .notEmpty().withMessage('Display Name cannot be empty')
             .isLength({ min: 5, max: 32 }).withMessage('Display Name must be 5-32 characters long')
@@ -55,4 +57,4 @@ router.post('/auth', [
 
 
 
-module.exports = router;
+export default accRouter;

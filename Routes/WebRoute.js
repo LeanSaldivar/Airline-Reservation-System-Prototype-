@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import { getWebsiteData, getAdmin, getPayment,
+        getLogin, getSignin} from '../Controller/webController.js';
+
 const webRouter = express.Router();
-const { getWebsiteData, getAdmin, getPayment,
-        getLogin, getSignin} = require('../Controller/webController.js');
 
 webRouter.get('/', getWebsiteData);
 
@@ -13,4 +14,4 @@ webRouter.get('/log-in', getLogin);
 
 webRouter.get('/sign-in', getSignin);
 
-module.exports = webRouter;
+export default webRouter;

@@ -1,10 +1,21 @@
-let loggedAccounts = [
-    {id: 1, email: '', password: ''}
+// UserAccounts.js
+
+import flightCode from "../middleware/flightCode.js";
+
+export const loggedAccounts = [
+    { id: 1, email: '', password: '' },
 ];
 
-let unloggedAccounts = [
-    { id: 1, displayName: "Emman Saldi", firstName: 'lean', lastName: 'saldivar',
-        email: 'hello@gmail.com', password: 'hello123', confirmPassword: 'hello123'}
+export const unloggedAccounts = [
+    {
+        id: 1,
+        displayName: "Emman Saldi",
+        firstName: 'lean',
+        lastName: 'saldivar',
+        email: 'hello@gmail.com',
+        password: 'hello123',
+        confirmPassword: 'hello123'
+    }
 ];
 
-module.exports = {loggedAccounts, unloggedAccounts};
+export default {unloggedAccounts, loggedAccounts};

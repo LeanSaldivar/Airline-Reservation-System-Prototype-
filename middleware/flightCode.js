@@ -1,9 +1,7 @@
 // Importing database
-let {users, makeUniqueId} = require ('../Database/FlightUsers');
+import {users, makeUniqueId} from '../Database/FlightUsers.js';
 
-// flightCodeMiddleware.js
-
-const validateFlightCode = (req, res, next) => {
+export const validateFlightCode = (req, res, next) => {
     // Check if it's a POST request (creating a new flight)
     if (req.method === 'POST') {
         const { flightCode } = req.body;  // Get flightCode from the request body
@@ -31,4 +29,4 @@ const validateFlightCode = (req, res, next) => {
 };
 
 
-module.exports = {users, makeUniqueId, validateFlightCode};
+export default {validateFlightCode, users, makeUniqueId, };

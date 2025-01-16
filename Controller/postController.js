@@ -1,4 +1,4 @@
-let { users, makeUniqueId } = require('../Database/FlightUsers'); // Re-import users and makeUniqueId if needed
+import { users, makeUniqueId } from '../Database/FlightUsers.js'; // Re-import users and makeUniqueId if needed
 
 // Function to get a specific flight by ID
 const getPostById = (req, res) => {
@@ -82,5 +82,5 @@ const patchPost = (req, res) => {
     }
 };
 
-module.exports = { getPostById, getPostByFlightCode, getAllFlightSchedule,
+export { getPostById, getPostByFlightCode, getAllFlightSchedule,
                     createPost, updatePost, deletePost, patchPost };

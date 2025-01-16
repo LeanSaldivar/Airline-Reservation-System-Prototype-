@@ -1,4 +1,4 @@
-const colors = require("colors");
+import Color from "colors";
 
 const logger = (req, res, next) => {
     const methodColors = {
@@ -22,4 +22,4 @@ const logger = (req, res, next) => {
     next();
 };
 
-module.exports = logger;
+export default logger;

@@ -1,8 +1,6 @@
-let { loggedAccounts,
-    unloggedAccounts }
-    = require('../Database/UserAccounts');
+import { unloggedAccounts,  loggedAccounts} from '../Database/UserAccounts.js';
 
-const {validationResult, matchedData} = require("express-validator");
+import {validationResult, matchedData} from "express-validator";
 
 // Function to get a specific account by ID
 const getAccountById = (req, res) => {
@@ -70,7 +68,6 @@ const createAccount = (req, res) => {
         return res.status(400).json({ msg: 'Passwords do not match' });
     }
 
-
     // Add the new account to the database
     unloggedAccounts.push(newAccount);
 
@@ -126,7 +123,7 @@ const getAuthStatus = (req,res) => {
         : res.status(401).json({ msg: 'Not Authenticated' });
 };
 
-module.exports = { getAccountById, createAccount,  GetAccountByFilter, getAuth, getAuthStatus };
+export { getAccountById, createAccount,  GetAccountByFilter, getAuth, getAuthStatus };
 
-// DONE IMPLEMENTING SAMPLE COOKIES
-//TIS TIME FOR SESSIONS PT2 BABY
+// DONE IMPLEMENTING SESSION ID'S
+//TIS TIME FOR PASSPORT AUTHORIZATION
