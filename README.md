@@ -8,11 +8,17 @@ This project is a prototype of an Airline Reservation System (ARS) designed to f
 
 ## Changelog
 
+#### January 17, 2025
+
+- Used passport.js to create local strategies and enhanced authentication
+- Implemented Serialization and Deserialization for logging in and signing in
+- Implemented Logout feature
+- Cleaned up code and removed previous Login and Sign-in feature
+
 #### January 16, 2025
 
 - Switched from commonJS to ES modules
 - Started implementing passport.js and authentification
-
 
 #### January 15, 2025: 7:58PM
 - **Login/Sign-in Authorization**

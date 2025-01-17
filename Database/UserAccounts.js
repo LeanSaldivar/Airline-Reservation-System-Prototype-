@@ -9,12 +9,21 @@ export const loggedAccounts = [
 export const unloggedAccounts = [
     {
         id: 1,
-        displayName: "Emman Saldi",
+        displayName: "Emman",
         firstName: 'lean',
-        lastName: 'saldivar',
         email: 'hello@gmail.com',
+        lastName: 'saldivar',
         password: 'hello123',
         confirmPassword: 'hello123'
+    },
+    {
+        id: 2,
+        displayName: "Riotard",
+        firstName: 'Rohann',
+        email: 'rohann@gmail.com',
+        lastName: 'Glino',
+        password: 'rohansux123',
+        confirmPassword: 'rohansux123'
     }
 ];
 

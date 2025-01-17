@@ -58,8 +58,7 @@ const createAccount = (req, res) => {
     const data = matchedData(req);
 
     // Create the new account using the validated data
-    const newAccount = {
-        id: unloggedAccounts.length + 1, // Generate a unique ID
+    const newAccount = {id: unloggedAccounts.length + 1, // Generate a unique ID
         ...data, // Use validated and sanitized fields directly
     };
 
@@ -75,55 +74,33 @@ const createAccount = (req, res) => {
     res.status(201).json(newAccount);
 };
 
+const Auth = (req, res) => {
+    //Logging
+    console.log(validationResult);
 
-//get sample auth
-const getAuth = (req, res) => {
-    // Check if session already exists
-    if (req.session.user) {
-        console.log("Session already exists:", req.session.id);
-        return res.status(200).json({ msg: "Session already active" });
-    }
+    res.sendStatus(200);
+}
 
-    // Extract and validate credentials
-    const { displayName, password } = req.body;
-
-    const findUser = unloggedAccounts.find(user => user.displayName === displayName);
-    const checkPass = unloggedAccounts.find(user => user.password === password);
-
-    if (!findUser) {
-        return res.status(401).json({ msg: "Username does not exist" });
-    }
-
-    if (!checkPass) {
-        return res.status(401).json({ msg: "Invalid Password" });
-    }
-
-    // Create session for authenticated user
-    req.session.user = findUser;
-    req.session.visited = true;
-
-    // Sending signed cookie into the browser
-    res.cookie("hello", "world", { maxAge: 60000, signed: true });
-
-    console.log("New session created:", req.session.id);
-
-    return res.status(200).json(findUser);
+const getLocalAuthStatus = (req, res) => {
+    console.log('inside /auth/local/status endpoint');
+    console.log(req.user);
+    console.log(req.session);
+    return req.user ? res.send(req.user) : res.sendStatus(401);
 };
 
-//Checks Authentication Status
-const getAuthStatus = (req,res) => {
-    req.sessionStore.get(req.sessionID, (err, data) => {
-        if (err) {
-            console.log(err);
-        }
+const logout = (req, res) => {
+    //Checks if there's any user
+    if (!req.user) return res.sendStatus(401);
 
-        console.log(data);
-    })
-    return req.session.user ? res.status(200).send(req.session.user)
-        : res.status(401).json({ msg: 'Not Authenticated' });
-};
+    req.logout((err) => {
+        if (err) return res.sendStatus(400);
 
-export { getAccountById, createAccount,  GetAccountByFilter, getAuth, getAuthStatus };
+        res.sendStatus(200);
+    });
+}
+
+export { getAccountById, createAccount,  GetAccountByFilter, Auth, getLocalAuthStatus, logout };
 
 // DONE IMPLEMENTING SESSION ID'S
 //TIS TIME FOR PASSPORT AUTHORIZATION
+//kil me

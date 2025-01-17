@@ -19,9 +19,6 @@ import logger from './middleware/logger.js';
 import notFound from './middleware/notFound.js';
 import errorHandler from './middleware/error.js';
 
-// Strategies
-import './Strategy/local-strategy.mjs';
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 

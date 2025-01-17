@@ -1,9 +1,13 @@
 import express from 'express';
+import passport from 'passport';
 import { query, body } from 'express-validator';
-import { getAccountById, createAccount,
-        GetAccountByFilter, getAuth, getAuthStatus } from "../Controller/accountController.js";
+import { getAccountById, createAccount, Auth,
+        GetAccountByFilter, getLocalAuthStatus, logout } from "../Controller/accountController.js";
 
 const accRouter = express.Router();
+
+import '../Strategy/local-strategy.js';
+import createCookies from '../middleware/CreateCookies.js';
 
 accRouter.get('/:id', getAccountById);
 
@@ -15,11 +19,8 @@ accRouter.get('/', query('filter')
     .isLength({ min: 3, max: 10 })
     .withMessage('Must be at least 3-10 characters long'),  GetAccountByFilter);
 
-//Checks if Authentication is valid
-accRouter.get('/auth/status', getAuthStatus);
-
 //Signing in
-accRouter.post('/',
+accRouter.post('/auth/sign-in',
     [
         body('displayName')
             .notEmpty().withMessage('Display Name cannot be empty')
@@ -44,17 +45,24 @@ accRouter.post('/',
     ],
     createAccount);
 
-//Authentication or Logging in
-accRouter.post('/auth', [
-        body('displayName')
-            .notEmpty().withMessage('Display Name cannot be empty')
-            .isLength({ min: 5, max: 32 }).withMessage('Display Name must be 5-32 characters long')
-            .isString().withMessage('Display Name must be a string'),
+//Passport Login
+accRouter.post('/auth/login',
+    [
+            body('email')
+                .notEmpty().withMessage('Email cannot be empty')
+                .isEmail().withMessage('Invalid email address'),
         body('password')
             .notEmpty().withMessage('Password cannot be empty')
             .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
-], getAuth);
+    ],
 
+    passport.authenticate('local'), createCookies, Auth);
+
+//Passport Authentication
+accRouter.get('/auth/status', getLocalAuthStatus);
+
+//Passport logout
+accRouter.post('/auth/logout', logout);
 
 
 export default accRouter;
