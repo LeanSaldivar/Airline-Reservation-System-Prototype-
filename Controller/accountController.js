@@ -1,6 +1,10 @@
-import { unloggedAccounts,  loggedAccounts} from '../Database/UserAccounts.js';
+import { unloggedAccounts} from '../Database/UserAccounts.js';
 
+import bcrypt from 'bcrypt';
 import {validationResult, matchedData} from "express-validator";
+import {hashPassword} from "../utils/helpers.js";
+
+import { User } from "../Mongoose/schema/users.js";
 
 // Function to get a specific account by ID
 const getAccountById = (req, res) => {
@@ -17,6 +21,19 @@ const getAccountById = (req, res) => {
 };
 
 const GetAccountByFilter = (req, res) => {
+
+    console.log(req.session.id);
+    req.sessionStore.get(req.session.id, (err, sessionData) =>{
+
+        if (err) {
+            console.log(err)
+            throw err;
+        }
+
+        console.log("Inside Session Store Get");
+        console.log(sessionData);
+    });
+
     // Check for validation errors
     const errors = validationResult(req);
     console.log(errors);
@@ -46,34 +63,6 @@ const GetAccountByFilter = (req, res) => {
     res.status(200).json(unloggedAccounts);
 };
 
-const createAccount = (req, res) => {
-    const errors = validationResult(req);
-
-    // Check if there are validation errors
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
-    // Extract only the validated and sanitized data
-    const data = matchedData(req);
-
-    // Create the new account using the validated data
-    const newAccount = {id: unloggedAccounts.length + 1, // Generate a unique ID
-        ...data, // Use validated and sanitized fields directly
-    };
-
-    // Server-side additional validation for passwords
-    if (newAccount.password !== newAccount.confirmPassword) {
-        return res.status(400).json({ msg: 'Passwords do not match' });
-    }
-
-    // Add the new account to the database
-    unloggedAccounts.push(newAccount);
-
-    // Respond with the newly created account
-    res.status(201).json(newAccount);
-};
-
 const Auth = (req, res) => {
     //Logging
     console.log(validationResult);
@@ -99,8 +88,51 @@ const logout = (req, res) => {
     });
 }
 
-export { getAccountById, createAccount,  GetAccountByFilter, Auth, getLocalAuthStatus, logout };
+const CreateAccount = async (req, res) => {
+    try {
+        // Validate request data
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
 
-// DONE IMPLEMENTING SESSION ID'S
-//TIS TIME FOR PASSPORT AUTHORIZATION
+        // Extract only validated and sanitized data
+        const data = matchedData(req);
+
+        // Check if passwords match
+        if (data.password !== data.confirmPassword) {
+            return res.status(400).json({ msg: 'Passwords do not match' });
+        }
+
+        // Hash the password
+        const hashedPassword = await hashPassword(data.password);
+        const hashedConfPassword = await hashPassword(data.confirmPassword);
+
+        // Create a new user object
+        const newUser = new User({
+            email: data.email,
+            password: hashedPassword, // Store hashed password
+            confirmPassword: hashedConfPassword,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            displayName: data.displayName,
+        });
+
+        // Save the user to the database
+        const savedUser = await newUser.save();
+
+        // Send response with saved user details (excluding the password)
+        const { password: _, confirmPassword: __, ...userWithoutPassword } = savedUser.toObject();
+        res.status(201).json(userWithoutPassword);
+    } catch (error) {
+        console.error('Error creating account:', error);
+        res.status(500).json({ msg: 'Internal server error', error: error.message });
+    }
+};
+
+
+export { getAccountById,  GetAccountByFilter, Auth, getLocalAuthStatus, logout, CreateAccount};
+
+// DONE IMPLEMENTING SESSION PASSPORT AUTHENTICATION
+//TIS TIME FOR GOOGLE O2
 //kil me

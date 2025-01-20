@@ -1,6 +1,7 @@
 import passport from 'passport';
 import { Strategy } from 'passport-local';
-import { unloggedAccounts, loggedAccounts } from '../Database/UserAccounts.js';
+import { comparePassword} from "../utils/helpers.js";
+import { User } from "../Mongoose/schema/users.js";
 
 //Stores in session ID to serialized data
 passport.serializeUser((user, done) => {
@@ -9,46 +10,39 @@ passport.serializeUser((user, done) => {
     done(null, user.id); //Pass in something unique to search for users
 });
 
-
-passport.deserializeUser((id, done) => {
-    console.log("Inside Deserializer");
+passport.deserializeUser(async (id, done) => {
     console.log(`Deserializing User ID: ${id}`);
-
     try {
-        const findUser = unloggedAccounts.find((user) => user.id === id); // Correctly named variable
+        const findUser = await User.findById(id);
         if (!findUser) {
-            throw new Error('User not found'); // Handle the case where the user is not found
+            return done(null, false, { message: 'User not found' });
         }
-        console.log("User found:", findUser); // Debug log
-        done(null, findUser);
+        return done(null, findUser);
     } catch (err) {
         console.error("Error during deserialization:", err);
-        done(err, null); // Pass the error to done
+        return done(err, null);
     }
 });
-//Validates user
-passport.use(
-    new Strategy(  { usernameField: 'email', passwordField: 'password' },
-        (email, password, done) => {
-        console.log(`Email: ${email}` );
-        console.log(`password: ${password}` );
 
+passport.use(new Strategy({ usernameField: 'email', passwordField: 'password' },
+    async (email, password, done) => {
         try {
-            //Finds username
-            const findUser = unloggedAccounts.find((user) =>
-                user.email === email);
-            if (!findUser) {
-                throw new Error('Username does not exist');
+            const user = await User.findOne({ email });
+            if (!user) {
+                return done(null, false, { message: 'User not found' });
             }
 
-            if (findUser.password !== password) {
-                throw new Error('Invalid Password');
+            const isMatch = await comparePassword(password, user.password);
+            if (!isMatch) {
+                return done(null, false, { message: 'Invalid credentials' });
             }
-            done (null, findUser);
+
+            return done(null, user);
         } catch (err) {
-            done(err, null);
+            return done(err);
         }
-    })
-);
+    }
+));
+
 
 export default passport;

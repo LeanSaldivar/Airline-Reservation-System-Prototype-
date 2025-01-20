@@ -8,6 +8,15 @@ This project is a prototype of an Airline Reservation System (ARS) designed to f
 
 ## Changelog
 
+#### January 20,2025
+
+- Created a database for users and Google users using MongoDB.
+- Created schemas for User and GoogleUser to store user data. 
+- Implemented password hashing for secure password storage. 
+- Set up session stores using MongoDB to persist session data. 
+- Integrated OAuth2 for Google authentication to handle user sign-in.
+- Setup Environment variables and gitignore
+
 #### January 17, 2025
 
 - Used passport.js to create local strategies and enhanced authentication
