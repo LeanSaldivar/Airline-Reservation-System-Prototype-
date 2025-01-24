@@ -4,7 +4,7 @@ import passport from 'passport';
 const googleRoute = express.Router();
 
 //custom imports
-import {callbackURL} from "../Controller/googleController.js";
+import {callbackURL, getGoogleStatus} from "../Controller/googleController.js";
 
 //Strategy
 import '../Strategy/google-strategy.js';
@@ -15,6 +15,6 @@ googleRoute.get('/', passport.authenticate('google'));
 
 googleRoute.get('/redirect', passport.authenticate('google'), callbackURL);
 
-
+googleRoute.get('/status', getGoogleStatus)
 
 export default googleRoute;

@@ -10,7 +10,7 @@ import { getAccountById, Auth, CreateAccount,
 import createCookies from '../middleware/CreateCookies.js';
 
 //Strategies
-import '../Strategy/local-strategy.js';
+//import '../Strategy/local-strategy.js';
 
 //Get Account by ID
 accRouter.get('/:id', getAccountById);

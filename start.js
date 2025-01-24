@@ -36,7 +36,7 @@ dotenv.config();  // Load variables from .env file
 // Middleware setup
 app.use(cors());
 
-mongoose.connect('mongodb://127.0.0.1:27017/userAccount', {
+mongoose.connect(process.env.MONGOOSE, {
 })
     .then(() => console.log('MongoDB connected successfully'))
     .catch(err => console.error('MongoDB connection failed:', err));
@@ -51,19 +51,18 @@ app.use(session({
         saveUninitialized: true,
         resave: false,
         cookie: {
-            secure: process.env.NODE_ENV === 'production',
-            httpOnly: true,
-            maxAge: 60000 * 60,
-            signed: true
+            maxAge: 3600000 * 2, //1 hour
+            HttpOnly: true,
+            secure: false,
         },
         store: MongoStore.create({
             client: mongoose.connection.getClient(),
-        })
+        }),
     })
 );
 
 app.use(passport.initialize());
-app.use(passport.session(undefined));
+app.use(passport.session());
 
 // Static folders
 app.use(express.static(path.join(__dirname, 'ARS')));

@@ -8,6 +8,14 @@ This project is a prototype of an Airline Reservation System (ARS) designed to f
 
 ## Changelog
 
+#### January 24, 2025
+- Updated Google Schema to include tokens
+- Created sample SMTP for gmail 
+- Added Schema validation
+- Updated env variables
+- Moved some CSS folders to public
+
+
 #### January 20,2025
 
 - Created a database for users and Google users using MongoDB.
