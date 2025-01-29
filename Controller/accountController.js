@@ -1,4 +1,3 @@
-import { unloggedAccounts} from '../Database/UserAccounts.js';
 
 import bcrypt from 'bcrypt';
 import {validationResult, matchedData} from "express-validator";
@@ -74,10 +73,11 @@ const getLocalAuthStatus = (req, res) => {
     console.log('inside /auth/local/status endpoint');
     console.log(req.user); // Check if req.user is populated
     console.log(req.session); // Check session contents
-    if (req.user) {
-        return res.send(req.user);
+    if (req.isAuthenticated()) {
+        res.json({ authenticated: true, user: req.user });
+    } else {
+        res.status(401).json({ authenticated: false });
     }
-    return res.sendStatus(401);
 };
 
 const logout = (req, res) => {

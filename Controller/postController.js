@@ -1,4 +1,8 @@
 import { users, makeUniqueId } from '../Database/FlightUsers.js'; // Re-import users and makeUniqueId if needed
+import {FlightSchedule} from "../Mongoose/schema/flight-Schedule.js";
+import { GoogleUser } from "../Mongoose/schema/google-user.js"
+import {validationResult, matchedData} from "express-validator";
+import mongoose from "mongoose";
 
 // Function to get a specific flight by ID
 const getPostById = (req, res) => {
@@ -30,29 +34,42 @@ const getPostByFlightCode = (req, res) => {
 };
 
 const getAllFlightSchedule = (req, res) => {
-    res.status(200).json(users); // Return all flight schedules directly
+    res.status(200).json(FlightSchedule); // Return all flight schedules directly
     }
 
-const createPost = (req, res) => {
-    const newPost = {
-        id: users.length + 1,
-        flightCode: makeUniqueId(5),
-        flyingFrom: req.body.flyingFrom,
-        movingTo: req.body.movingTo,
-        departureDate: req.body.departureDate,
-        returnDate: req.body.returnDate,
-        travelClass: req.body.travelClass,
-        flightStatus: 'TBA',
-    };
+const createTwoWayFlight = async (req, res) => {
+    try {
+        // Check if user is authenticated
+        if (!req.user || !req.user.username) {
+            return res.status(401).json({ msg: 'User is not authenticated' });
+        }
 
-    if (!newPost.flyingFrom || !newPost.movingTo || !newPost.departureDate ||
-        !newPost.returnDate || !newPost.travelClass) {
-        return res.status(400).json({ msg: 'Incomplete data' });
+        // Find the user by username
+        const userExists = await GoogleUser.findOne({ username: req.user.username });
+        if (!userExists) {
+            return res.status(400).json({ msg: 'Invalid user' });
+        }
+
+        // Prepare flight data
+        const data = {
+            ...req.body,
+            flightUser: req.user.username, // Reference the authenticated user's username
+            flightUserId: req.user._id.toString(), // Keep flightId as string if required
+            flightStatus: "Scheduled" // Default status
+        };
+
+        // Save the flight schedule
+        const newFlight = new FlightSchedule(data);
+        const savedFlight = await newFlight.save();
+
+        console.log("Flight Successfully Booked: \n", savedFlight);
+
+    } catch (error) {
+        console.error('Error creating flight:', error);
+        res.status(500).json({ msg: 'Internal server error' });
     }
-
-    users.push(newPost);
-    res.status(201).json(newPost);
 };
+
 
 const updatePost = (req, res) => {
     const { flyingFrom, movingTo, departureDate, returnDate, travelClass, flightStatus } = req.body;
@@ -83,4 +100,4 @@ const patchPost = (req, res) => {
 };
 
 export { getPostById, getPostByFlightCode, getAllFlightSchedule,
-                    createPost, updatePost, deletePost, patchPost };
+    createTwoWayFlight, updatePost, deletePost, patchPost };

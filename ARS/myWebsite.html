@@ -76,8 +76,6 @@
             </form>
 
         </div>
-
-
         <div id="book-flight" class="tab-content">
             <div class="form-container">
                 <h1>Book Your Flight</h1>
@@ -85,6 +83,9 @@
 
                 <!-- Flight Booking Form -->
                 <form id="add-flight-form" class="flight-booking-form">
+                    <!-- Flight ID (hidden or auto-generated) -->
+                    <input type="hidden" id="flightId" name="flightId" value="auto-generated-id">
+
                     <!-- Flying From -->
                     <label for="flying-from">Flying From:</label>
                     <select id="flying-from" name="flying-from" required>
@@ -94,9 +95,9 @@
                         <option value="tokyo">Tokyo</option>
                     </select>
 
-                    <!-- Moving To -->
-                    <label for="moving-to">Moving To:</label>
-                    <select id="moving-to" name="moving-to" required>
+                    <!-- Flying To -->
+                    <label for="moving-to">Flying To:</label>
+                    <select id="moving-to" name="flying-to" required>
                         <option value="" disabled selected>Select your destination</option>
                         <option value="paris">Paris</option>
                         <option value="mogadishu">Mogadishu</option>
@@ -108,9 +109,17 @@
                     <label for="departure-date">Departure Date:</label>
                     <input type="date" id="departure-date" name="departure-date" required>
 
+                    <!-- Departure Time -->
+                    <label for="departure-time">Departure Time:</label>
+                    <input type="time" id="departure-time" name="departure-time" required>
+
                     <!-- Return Date -->
                     <label for="return-date">Return Date:</label>
                     <input type="date" id="return-date" name="return-date">
+
+                    <!-- Return Time -->
+                    <label for="return-time">Return Time:</label>
+                    <input type="time" id="return-time" name="return-time">
 
                     <!-- Travel Class -->
                     <label for="travel-class">Travel Class:</label>
@@ -120,6 +129,9 @@
                         <option value="business">Business</option>
                         <option value="first-class">First Class</option>
                     </select>
+
+                    <!-- Flight User (Automatically populated if authenticated) -->
+                    <input type="hidden" id="flight-user" name="flightUser" value="{{userId}}">
 
                     <!-- Submit Button for POST Request -->
                     <button id="refresh-button" type="submit" class="submit-btn">Book Flight</button>

@@ -6,7 +6,7 @@ const callbackURL = (req, res) => {
 }
 
 const getGoogleStatus = (req, res) => {
-    console.log('inside /auth/local/status endpoint');
+    console.log('inside google endpoint');
     console.log(req.user); // Check if req.user is populated
     console.log(req.session); // Check session contents
 

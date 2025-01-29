@@ -34,7 +34,10 @@ import MongoStore from "connect-mongo";
 dotenv.config();  // Load variables from .env file
 
 // Middleware setup
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:1000", // Frontend origin
+    credentials: true, // Allow cookies & credentials
+}));
 
 mongoose.connect(process.env.MONGOOSE, {
 })

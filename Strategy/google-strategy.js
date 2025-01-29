@@ -59,28 +59,26 @@ passport.use(new Strategy(
             // Find user by Google ID
             let findUser = await GoogleUser.findOne({ googleId: profile.id });
 
-            //Token logic
+            // Token logic
             const tokenExpiry = new Date();
             tokenExpiry.setSeconds(tokenExpiry.getSeconds() + 3600); // Assume 1-hour expiry for the access token
 
             if (!findUser) {
                 // If user does not exist, create a new user
-                const username = profile.displayName || profile.emails[0].value.split('@')[0]; // Fallback for username
-                const email = profile.emails[0].value;
-                const picture = profile.photos?.[0]?.value; // Profile picture URL, if available
-
                 const newUser = new GoogleUser({
-                    username: username,
+                    username: profile.displayName || profile.emails[0].value.split('@')[0], // Fallback for username
                     googleId: profile.id,
-                    email: email,
-                    firstName: profile.name?.givenName, // Extract first name
-                    lastName: profile.name?.familyName, // Extract last name
-                    picture: picture,
+                    email: profile.emails[0].value,
+                    firstName: profile.name?.givenName || '',
+                    lastName: profile.name?.familyName || '',
+                    picture: profile.photos?.[0]?.value || '',
                     tokens: {
-                        accessToken,
-                        refreshToken,
+                        accessToken: accessToken,
+                        refreshToken: refreshToken,
                         expiresAt: tokenExpiry,
                     },
+                    createdAt: new Date(),
+                    lastLogin: new Date(),
                 });
 
                 // Save the new user
@@ -93,24 +91,24 @@ passport.use(new Strategy(
                 findUser.tokens.refreshToken = refreshToken;
                 findUser.tokens.expiresAt = tokenExpiry;
                 findUser.email = profile.emails[0].value;
-                findUser.picture = profile.photos?.[0]?.value;
-                findUser.firstName = profile.name?.givenName;
-                findUser.lastName = profile.name?.familyName;
+                findUser.picture = profile.photos?.[0]?.value || '';
+                findUser.firstName = profile.name?.givenName || '';
+                findUser.lastName = profile.name?.familyName || '';
                 findUser.lastLogin = new Date();
-                findUser.createdAt = new Date();
 
                 // Save the updates
-                await findUser.save();
-                console.log("Existing User Updated:", findUser);
-                return done(null, findUser);
+                const updatedUser = await findUser.save();
+                console.log("Existing User Updated:", updatedUser);
+                return done(null, updatedUser);
             }
         } catch (err) {
             console.error("Error during authentication:", err);
             return done(err, null);
         }
     }
-));
+    )
+);
 
 export default passport;
 
-//
+//fs

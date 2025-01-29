@@ -1,5 +1,6 @@
-const form = document.querySelector('#add-flight-form'); // Form element for adding flights
+const bookFlightFormElement = document.querySelector('#add-flight-form'); // Form element for adding flights
 const cancelFlightFormElement = document.querySelector('.cancel-flights-form'); // Selects the form
+
 
 async function cancelFlightForm(e) {
     e.preventDefault(); // Prevent default form submission
@@ -42,45 +43,90 @@ async function cancelFlightForm(e) {
     }
 }
 
-async function flightForm(e) {
-    e.preventDefault(); // Prevent the default form submission
-
-    const formData = new FormData(form); // Gather the form data
-    const flyingFrom = formData.get('flying-from');
-    const movingTo = formData.get('moving-to');
-    const departureDate = formData.get('departure-date');
-    const returnDate = formData.get('return-date');
-    const travelClass = formData.get('travel-class');
-
+async function fetchAuthenticatedUser() {
     try {
-        // Send POST request with form data
-        const res = await fetch('http://localhost:1000/web/api/users', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ flyingFrom, movingTo, departureDate, returnDate, travelClass}),
+        const res = await fetch('http://localhost:1000/web/api/account/auth/status', {
+            method: 'GET',
+            credentials: 'include',
         });
 
-        // Check if the request was successful
         if (!res.ok) {
-            throw new Error('Failed to add post');
+            throw new Error(`Authentication failed: ${res.statusText}`);
         }
 
-        // Parse the response
-        const newPost = await res.json();
+        const user = await res.json();
+        console.log("User data:", user);
 
-        const postEl = document.createElement('div');
-        postEl.textContent = newPost.name || 'No Name';
-        document.querySelector('#output').appendChild(postEl);
-
-        // Reset the form fields after successful submission
-        form.reset();
+        const flightUserEl = document.querySelector('#flight-user');  // Use the correct ID
+        if (flightUserEl) {
+            flightUserEl.value = user.googleId;
+        } else {
+            console.warn("Element #flight-user not found.");
+        }
+        document.querySelector('#flightId').value = `flight-${user.googleId}-${Date.now()}`;
 
     } catch (error) {
-        console.error('Error:', error.message);
-        document.querySelector('#output').textContent = 'Failed to load posts. Please try again later.';
+        console.error('Error fetching user details:', error.message);
     }
 }
 
+async function flightForm(e) {
+    e.preventDefault();
+
+    if (!bookFlightFormElement ) {
+        console.error('Flight booking form not found!');
+        return;
+    }
+
+    const formData = new FormData(bookFlightFormElement);
+    const flyingFrom = formData.get('flying-from');
+    const flyingTo = formData.get('flying-to');
+    const departureDate = formData.get('departure-date');
+    const departureTime = formData.get('departure-time');
+    const returnDate = formData.get('return-date');
+    const returnTime = formData.get('return-time');
+    const travelClass = formData.get('travel-class');
+    const flightUser = formData.get('flight-user');
+    const flightUserId = formData.get('flightId');
+
+    try {
+        const res = await fetch('http://localhost:1000/web/api/users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                flyingFrom,
+                flyingTo,
+                departureDate,
+                departureTime,
+                returnDate,
+                returnTime,
+                travelClass,
+                flightUser,
+                flightUserId,
+            }),
+        });
+
+        if (!res.ok) {
+            const errorText = await res.text();
+            throw new Error(`Failed to add flight: ${res.status} - ${errorText}`);
+        }
+
+        const newFlight = await res.json();
+        console.log("Flight added:", newFlight);
+
+        const postEl = document.createElement('div');
+        postEl.textContent = `Flight booked successfully: ${newFlight.flightCode || 'No Flight Code'}`;
+        document.querySelector('#output').appendChild(postEl);
+
+    } catch (error) {
+        console.error('Error:', error.message);
+        document.querySelector('#output').textContent = 'Failed to book the flight. Please try again later.';
+    }
+}
+
+
 // Attach the submit event listener to the form
-form.addEventListener('submit', flightForm);
+bookFlightFormElement.addEventListener('submit', flightForm);
 cancelFlightFormElement.addEventListener('submit', cancelFlightForm);
+
+fetchAuthenticatedUser().catch(error => console.error("Failed to fetch user:", error));

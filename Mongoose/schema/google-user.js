@@ -5,6 +5,7 @@ const googleUserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.String,
         required: true,
         unique: true,
+        index: true,
     },
     googleId: {
         type: mongoose.Schema.Types.String,
@@ -46,14 +47,6 @@ const googleUserSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.Date,
             default: null,
         },
-    },
-    emailSent: {
-        type: mongoose.Schema.Types.Boolean,
-        default: false, // Track if an email was sent using the Gmail API
-    },
-    emailCount: {
-        type: mongoose.Schema.Types.Number,
-        default: 0, // Keep count of emails sent
     },
 });
 
