@@ -1,7 +1,7 @@
 const bookFlightFormElement = document.querySelector('#add-flight-form'); // Form element for adding flights
 const cancelFlightFormElement = document.querySelector('.cancel-flights-form'); // Selects the form
 
-
+//To be fixed
 async function cancelFlightForm(e) {
     e.preventDefault(); // Prevent default form submission
 
@@ -43,6 +43,7 @@ async function cancelFlightForm(e) {
     }
 }
 
+//Checks if user is authenticated
 async function fetchAuthenticatedUser() {
     try {
         const res = await fetch('http://localhost:1000/web/api/account/auth/status', {
@@ -70,6 +71,8 @@ async function fetchAuthenticatedUser() {
     }
 }
 
+
+//Books flight form
 async function flightForm(e) {
     e.preventDefault();
 
@@ -79,6 +82,7 @@ async function flightForm(e) {
     }
 
     const formData = new FormData(bookFlightFormElement);
+    const flightItinerary = formData.get('flight-itinerary');
     const flyingFrom = formData.get('flying-from');
     const flyingTo = formData.get('flying-to');
     const departureDate = formData.get('departure-date');

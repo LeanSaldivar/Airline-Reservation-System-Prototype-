@@ -26,7 +26,6 @@ export let users = [
     { id: 3, flightCode: makeid(5), flyingFrom: 'London', movingTo: 'Paris', departureDate: '12/29/2024', returnDate: '12/30/2024', travelClass: 'FirstClass', flightStatus: 'TBA'},
 ];
 
-// Removes duplicate ID's
 export function makeUniqueId(length) {
     let id;
     do {

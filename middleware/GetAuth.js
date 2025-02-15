@@ -3,12 +3,12 @@ const requireAuth = (req, res, next) => {
     console.log("Session User:", req.user); // Debugging
 
     if (req.isAuthenticated()) {
-        res.json({ authenticated: true, user: req.user });
+        //Proceed with next step
+        next();
     } else {
         res.status(401).json({ authenticated: false });
     }
 
-    next();
 };
 
 export default requireAuth;

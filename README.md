@@ -8,6 +8,10 @@ This project is a prototype of an Airline Reservation System (ARS) designed to f
 
 ## Changelog
 
+### February 15, 2025
+- Added improved Flight Code generation
+- Used Data Transformation for a more simplified view for customers
+
 #### January 29, 2025
 - Created Schema for booking flights
 - Integrated POST request for booking flights inside mongdob

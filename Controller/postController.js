@@ -1,8 +1,7 @@
-import { users, makeUniqueId } from '../Database/FlightUsers.js'; // Re-import users and makeUniqueId if needed
+import { users } from '../Database/FlightUsers.js'; // Re-import users and makeUniqueId if needed
 import {FlightSchedule} from "../Mongoose/schema/flight-Schedule.js";
 import { GoogleUser } from "../Mongoose/schema/google-user.js"
-import {validationResult, matchedData} from "express-validator";
-import mongoose from "mongoose";
+import FlightDataService from "../utils/FlightData.js";
 
 // Function to get a specific flight by ID
 const getPostById = (req, res) => {
@@ -33,9 +32,17 @@ const getPostByFlightCode = (req, res) => {
     res.status(200).json(flightSchedule);
 };
 
-const getAllFlightSchedule = (req, res) => {
-    res.status(200).json(FlightSchedule); // Return all flight schedules directly
+const getAllFlightSchedule = async (req, res) => {
+    try {
+        const flights = await FlightSchedule.find();
+        const customerViewFlights = flights.map(flight =>
+            FlightDataService.toCustomerView(flight)
+        );
+        res.json(customerViewFlights);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
+}
 
 const createTwoWayFlight = async (req, res) => {
     try {
@@ -55,7 +62,8 @@ const createTwoWayFlight = async (req, res) => {
             ...req.body,
             flightUser: req.user.username, // Reference the authenticated user's username
             flightUserId: req.user._id.toString(), // Keep flightId as string if required
-            flightStatus: "Scheduled" // Default status
+            flightStatus: "Scheduled", // Default status
+            flightCode: req.flightCode,
         };
 
         // Save the flight schedule
@@ -69,7 +77,6 @@ const createTwoWayFlight = async (req, res) => {
         res.status(500).json({ msg: 'Internal server error' });
     }
 };
-
 
 const updatePost = (req, res) => {
     const { flyingFrom, movingTo, departureDate, returnDate, travelClass, flightStatus } = req.body;

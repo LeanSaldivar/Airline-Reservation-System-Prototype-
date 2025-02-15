@@ -3,6 +3,8 @@ import requireAuth from '../middleware/getAuth.js'; // Import the middleware fun
 import { getPostById, getAllFlightSchedule, createTwoWayFlight, getPostByFlightCode,
     updatePost, deletePost, patchPost } from '../Controller/postController.js';
 import { flightValidationRules }  from "../utils/flightValidation.js";
+import {CreateCode} from "../middleware/CreateCode.js"
+
 
 const router = express.Router();
 
@@ -12,11 +14,9 @@ router.get('/flight/:id', getPostById); // Search by flight ID
 //GET a single flight by Flight Code
 router.get('/flightcode/:flightCode', getPostByFlightCode); // Search by flight code
 
-//GET all flight schedules
-router.get('/flights', getAllFlightSchedule);
-
 //Authentication for protected routes
-router.post('/',  requireAuth, flightValidationRules, createTwoWayFlight);
+router.get('/flights',requireAuth, getAllFlightSchedule);
+router.post('/',  requireAuth, flightValidationRules, CreateCode, createTwoWayFlight);
 router.put('/:flightCode', requireAuth, flightValidationRules, updatePost);
 router.delete('/:flightCode',  requireAuth, flightValidationRules, deletePost);
 router.patch('/:flightCode',  requireAuth, flightValidationRules, patchPost);

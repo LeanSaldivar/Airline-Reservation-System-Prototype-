@@ -1,5 +1,4 @@
 
-import bcrypt from 'bcrypt';
 import {validationResult, matchedData} from "express-validator";
 import {hashPassword} from "../utils/helpers.js";
 

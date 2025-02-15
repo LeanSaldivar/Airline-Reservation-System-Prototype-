@@ -83,8 +83,16 @@
 
                 <!-- Flight Booking Form -->
                 <form id="add-flight-form" class="flight-booking-form">
-                    <!-- Flight ID (hidden or auto-generated) -->
                     <input type="hidden" id="flightId" name="flightId" value="auto-generated-id">
+
+                    <!-- Flight Itinerary Form -->
+                    <label for="flight-itinerary">Flight Itinerary:</label>
+                    <select id="flight-itinerary" name="flight-itinerary" required>
+                        <option value="" disabled selected>Select an Itinerary</option>
+                        <option value="One way">One way</option>
+                        <option value="Two way">Two way</option>
+                        <option value="Return">Return</option>
+                    </select>
 
                     <!-- Flying From -->
                     <label for="flying-from">Flying From:</label>
@@ -113,13 +121,14 @@
                     <label for="departure-time">Departure Time:</label>
                     <input type="time" id="departure-time" name="departure-time" required>
 
-                    <!-- Return Date -->
-                    <label for="return-date">Return Date:</label>
-                    <input type="date" id="return-date" name="return-date">
+                    <!-- Return Date & Time (Initially Hidden) -->
+                    <div id="return-section" style="display: none;">
+                        <label for="return-date">Return Date:</label>
+                        <input type="date" id="return-date" name="return-date">
 
-                    <!-- Return Time -->
-                    <label for="return-time">Return Time:</label>
-                    <input type="time" id="return-time" name="return-time">
+                        <label for="return-time">Return Time:</label>
+                        <input type="time" id="return-time" name="return-time">
+                    </div>
 
                     <!-- Travel Class -->
                     <label for="travel-class">Travel Class:</label>
@@ -130,20 +139,27 @@
                         <option value="first-class">First Class</option>
                     </select>
 
-                    <!-- Flight User (Automatically populated if authenticated) -->
                     <input type="hidden" id="flight-user" name="flightUser" value="{{userId}}">
 
-                    <!-- Submit Button for POST Request -->
                     <button id="refresh-button" type="submit" class="submit-btn">Book Flight</button>
-                    <script src="/Front.js"></script>
                 </form>
 
-                <!-- Separate Button for Redirection -->
                 <div style="margin-top: 20px;">
                     <a href="http://localhost:1000/web/payment" class="redirect-btn">Go to Payment Page</a>
                 </div>
             </div>
         </div>
+
+        <script>
+            document.getElementById("flight-itinerary").addEventListener("change", function() {
+                var returnSection = document.getElementById("return-section");
+                if (this.value === "Two way") {
+                    returnSection.style.display = "block";
+                } else {
+                    returnSection.style.display = "none";
+                }
+            });
+        </script>
 
         <div id="flight-schedule" class="tab-content">
             <h1>Your Flight Schedule</h1>
@@ -152,31 +168,23 @@
             <table class="flight-schedule-table">
                 <thead>
                 <tr>
-                    <th>Flight ID</th>
-                    <th>Flying From</th>
-                    <th>Moving To</th>
-                    <th>Departure</th>
-                    <th>Arrival</th>
-                    <th>Travel Class</th>
+                    <th>flightCode</th>
+                    <th>Route</th>
+                    <th>Dates</th>
+                    <th>Times</th>
+                    <th>Class</th>
                     <th>Status</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>ABC123</td>
-                    <td>japan</td>
-                    <td>New York</td>
-                    <td>08/01/2025</td>
-                    <td>09/01/2025</td>
-                    <th>Business</th>
-                    <td>Delayed</td>
+
                 </tr>
                 </tbody>
             </table>
             <script type="text/javascript">
                 const flightSchedule = document.querySelector('.flight-schedule-table > tbody');
 
-                // Async function to load data
                 async function loadData() {
                     try {
                         const response = await fetch('http://localhost:1000/web/api/users/flights');
@@ -184,47 +192,37 @@
                             throw new Error(`HTTP error! Status: ${response.status}`);
                         }
                         const data = await response.json();
-                        populateFlightSchedule(data);
+                        console.log('Received data:', data);
+                        populateFlightSchedule(Array.isArray(data) ? data : [data]);
                     } catch (error) {
                         console.error('Failed to fetch flight schedule:', error.message);
                     }
                 }
 
-                // Function to populate flight schedule table
                 function populateFlightSchedule(data) {
-                    // Clear existing table data
                     flightSchedule.innerHTML = '';
 
-                    // Populate table with rows
                     data.forEach((row) => {
                         const tr = document.createElement('tr');
 
-                        // Helper to create and append cells
                         const createCell = (content) => {
                             const td = document.createElement('td');
-                            td.textContent = content;
+                            td.textContent = content || ''; // Use empty string if content is null/undefined
                             tr.appendChild(td);
                         };
-
-                        createCell(row.flightCode);      // Flight ID
-                        createCell(row.flyingFrom);     // Flying From
-                        createCell(row.movingTo);       // Moving To
-                        createCell(row.departureDate);  // Departure Date
-                        createCell(row.returnDate);     // Return Date
-                        createCell(row.travelClass);    // Travel Class
-                        createCell(row.flightStatus);   // Flight Status
+                        createCell(row.flightCode);
+                        createCell(row.route);
+                        createCell(row.dates);
+                        createCell(row.times);
+                        createCell(row.class);
+                        createCell(row.status);
 
                         flightSchedule.appendChild(tr);
                     });
                 }
 
-                // Load data when the document is fully loaded
-                document.addEventListener('DOMContentLoaded', () => {
-                    loadData();
-                });
+                window.addEventListener('DOMContentLoaded', loadData);
             </script>
-
-
         </div>
 
         <div id="faq" class="tab-content">
@@ -249,8 +247,6 @@
                 <label for = "faq-id" style="text-align: center; padding-top: 50px;">Got a Question?</label>
                 <input type="text" id = "faq-id" name="faq-id" placeholder="Enter your Suggestions" required>
                 <button type="submit" class="cancel-btn">Submit response</button>
-
-
             </form>
         </div>
 

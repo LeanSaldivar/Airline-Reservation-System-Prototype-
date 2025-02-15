@@ -1,9 +1,13 @@
 import { body } from 'express-validator';
 
 export const flightValidationRules = [
-    body('flightId')
-        .isMongoId()
-        .withMessage('Invalid flight ID'),
+    body('flightCode')
+        .notEmpty()
+        .withMessage('Flight Code is required'),
+
+    body('flightItinerary')
+        .notEmpty()
+        .withMessage('Flight Itinerary is required'),
 
     body('flyingFrom')
         .isString()
